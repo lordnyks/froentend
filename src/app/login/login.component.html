@@ -1,0 +1,39 @@
+
+<div class="background">
+  <form class="loginForm" [formGroup]="loginForm" name="form" (ngSubmit)="onSubmit()">
+    
+    <mat-form-field class="my-form-field" appearance="outline" color="accent">
+      <mat-label>Email</mat-label>
+      <input matInput type="text" name="username" formControlName="username">
+      <mat-error *ngIf="loginForm.get('username')?.invalid">Email invalid!</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="my-form-field" appearance="outline" color="accent">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" formControlName="password">
+      <mat-error *ngIf="loginForm.get('password')?.invalid">Parola invalidă.</mat-error>
+    </mat-form-field>
+    
+    <button class="butonel" mat-raised-button color="accent" [disabled]="this.loginForm.invalid">Login</button>
+    <mat-error *ngIf="this.errorMessage">{{this.errorMessage}}</mat-error>
+
+
+       <ul>
+         <li>
+    <a class="bottom" routerLinkActive="active" routerLink="/register">Înregistrează-te</a>
+  </li>
+  <li >
+    <a class="bottom" >Ai uitat parola?</a>
+  </li>
+  </ul>
+
+    </form>
+
+    <!-- <div *ngIf="isLoggedIn()">
+        <button mat-raised-button (click)="signOut()" routerLink="/home">
+          Log out
+        </button>
+    </div> -->
+  </div>
+  
+  

@@ -1,0 +1,68 @@
+.loginForm {
+  padding: 2% 5% 2% 5%;
+  display: flex;
+  background-size: cover;
+  /* color: white; */
+  margin: 15% 35% 0% 35% ;
+  place-content: center;
+  border-radius: 10px;
+  flex-direction: column;
+  background-color: #ffffff35;
+  box-shadow: 10px 10px 18px #00000080;
+
+}
+
+.background { 
+  background-image: url('../../assets/blur.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  position:absolute;
+  width: 100%;
+  height: 100%;
+}
+
+
+.content {
+  border-radius: 10px;  
+  padding: 30%;
+  padding-bottom: 155px;
+  padding-top: 155px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-size: cover;
+}
+
+.butonel {
+  /* margin-left: 70%;
+  left: 0%; */
+  /* width: 20%;
+  display: flex;
+  justify-self: right; */
+}
+
+.bottom {
+  text-decoration: none;  
+  display: block;
+
+
+  color: white;
+  text-decoration: none;
+}
+
+li {
+  text-decoration: none;
+  display: block;
+
+  text-decoration: none;
+}
+
+ul {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 2fr 1fr;
+  place-items:left;
+
+  
+  
+}

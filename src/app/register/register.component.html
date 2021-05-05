@@ -1,0 +1,71 @@
+<div class="background">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #stepper>
+        <span >
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Nume</mat-label>
+                <input matInput type="text"  formControlName="lastName" >
+                <mat-error *ngIf="formGroup.get('lastName')?.invalid">Numele este invalid sau nu este completat.</mat-error>
+              </mat-form-field>
+        </span>
+        <span>
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Prenume</mat-label>
+                <input matInput type="text" formControlName="firstName">
+                <mat-error *ngIf="formGroup.get('firstName')?.invalid">Prenumele este invalid sau nu este completat.</mat-error>
+              </mat-form-field>
+        </span>
+        <span>
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Data nașterii</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                <mat-error *ngIf="formGroup.get('dateOfBirth')?.invalid">Data nașterii este invalidă.</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+        </span>
+        <span >
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Email</mat-label>
+                <input matInput type="email"  formControlName="email">
+                <mat-error *ngIf="formGroup.get('email')?.invalid">Email-ul este invalid.</mat-error>
+              </mat-form-field>
+        </span>
+        <span  >
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Parola</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-error *ngIf="formGroup.get('password')?.invalid">Parola este invalidă sau necompletată.</mat-error>
+              </mat-form-field>
+        </span>
+        <span id="sex">
+            <mat-form-field appearance="outline" color="accent">
+                <mat-label>Sex</mat-label>
+                <mat-select [(value)]="selected" formControlName="gender">
+                  <mat-option value="masculin">Masculin</mat-option>
+                  <mat-option value="feminin">Feminin</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('gender')?.invalid">Nu ai selectat sexul.</mat-error>
+              </mat-form-field>
+            <!-- <p></p>
+            <mat-radio-group  formControlName="gender">
+            <mat-radio-button #checked color="accent" value="masculin">Masculin</mat-radio-button>
+            <mat-radio-button color="accent" value="feminin">Feminin</mat-radio-button>
+           
+        </mat-radio-group> -->
+        </span>
+        <span  >
+            <mat-form-field class="my-form-field" appearance="outline" color="accent">
+                <mat-label>Număr de telefon</mat-label>
+                <input matInput type="text" formControlName="phoneNumber">
+                <mat-error *ngIf="formGroup.get('phoneNumber')?.invalid">Număr de telefon invalid.</mat-error>
+              </mat-form-field>
+        </span> 
+        <span> 
+            <button mat-raised-button color="accent" [disabled]="this.formGroup.invalid">Înregistrează-mă</button>
+            <mat-error>{{isValid}}</mat-error>
+        </span>
+
+        
+    </form>
+
+    </div> 
