@@ -1,0 +1,34 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm" >
+    <mat-form-field appearance="fill">
+    <mat-label>Număr mașină</mat-label>
+    <input matInput placeholder="AG 22 UNV" formControlName="plateNumber" >
+    <mat-error *ngIf="formGroup.get('plateNumber')?.invalid">Numărul mașinii este invalid.</mat-error>
+
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Marca</mat-label>
+    <input matInput placeholder="Dacia" formControlName="made">
+    <mat-error *ngIf="formGroup.get('made')?.invalid">Marca mașinii este invalidă.</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill">
+    <mat-label>Model</mat-label>
+    <input matInput placeholder="Sandero" formControlName="model">
+    <mat-error *ngIf="formGroup.get('model')?.invalid">Modelul mașinii nu este inserat.</mat-error>
+
+  </mat-form-field>
+
+  <mat-form-field appearance="fill"   >
+    <mat-label>Data expirării</mat-label>
+    <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate" >
+    <mat-error *ngIf="formGroup.get('expireDate')?.invalid">Data expirării nu are un format corect.</mat-error>
+
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" ></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Adaugă</button>
+
+</form>

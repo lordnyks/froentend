@@ -87,7 +87,7 @@ export class UsersPanelComponent implements AfterViewInit {
   }
   private refresh() {
     this.authService.retrieveUsers().subscribe((data: IUser[]) => {
-      this.dataSource.data = data;
+      this.dataSource = new MatTableDataSource(data);
     });
   }
 }

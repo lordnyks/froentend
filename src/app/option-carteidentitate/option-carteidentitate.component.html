@@ -1,0 +1,25 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm">
+<mat-form-field appearance="fill">
+    <mat-label>Nume</mat-label>
+    <input matInput placeholder="{{nume}}" value="{{nume}}" formControlName="lastName">
+    <mat-error *ngIf="formGroup.get('lastName')?.invalid">Numele este invalid sau necompletat.</mat-error>
+
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Prenume</mat-label>
+    <input matInput placeholder="{{prenume}}" value="{{prenume}}" formControlName="firstName">
+    <mat-error *ngIf="formGroup.get('firstName')?.invalid">Prenumele este invalid sau necompletat.</mat-error> 
+
+  </mat-form-field>
+  
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Data expirării</mat-label>
+    <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
+    <mat-error *ngIf="formGroup.get('expireDate')?.invalid">Data expirării nu are un format corect.</mat-error>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" ></mat-datepicker>
+  </mat-form-field>
+  <button mat-raised-button color="primary">Adaugă</button>
+</form> 

@@ -1,7 +1,3 @@
-import { IProfile } from './IProfile';
-
-
-
 // {
 //   "password": "$2a$10$e6EjOazPGWohSUuWaNgJnukAYWyOj9iYBEyjM.0ZtUWk0r.RzJfMa",
 //   "email": "lordnyks@gmail.com",
@@ -25,11 +21,12 @@ import { IProfile } from './IProfile';
 //       "personalIdentificationNumber": null
 //   }
 // }
-export interface IUser {
-  id?: number;
-  password?: string;
-  email?: string;
-  username?: string
-  profile?: IProfile;
 
+export interface IAddress {
+    county?: string;
+    city?: string;
+    townShip?: string;
+    village?: string;
+    street?: string;
+    gateNumber?: string;
 }

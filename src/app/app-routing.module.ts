@@ -15,12 +15,12 @@ import { UsersResolverService } from './users-resolver.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent, /*canActivate: [DashboardGuard]*/ },
-  { path: 'register', component: RegisterComponent, /*canActivate: [DashboardGuard]*/},
+  { path: 'login', component: LoginComponent, canActivate: [DashboardGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [DashboardGuard]},
   { path: 'about', component: AboutComponent},
-  { path: 'users', component: UsersPanelComponent, /*canActivate: [AuthenticationGuard, DashboardGuard]*/},
-  { path: 'admin-panel', component: AdminDashboardComponent,/* canActivate: [AuthenticationGuard]*/},
-  { path: 'user-profile', component: UserProfileComponent, resolve: { user: UsersResolverService} /*canActivate: [DashboardGuard]*/},
+  { path: 'users', component: UsersPanelComponent, canActivate: [AuthenticationGuard, DashboardGuard]},
+  { path: 'admin-panel', component: AdminDashboardComponent, canActivate: [AuthenticationGuard]},
+  { path: 'user-profile', component: UserProfileComponent, resolve: { user: UsersResolverService}, canActivate: [DashboardGuard]},
   { path: '**', component: PageNotfoundComponent}
 ];
 

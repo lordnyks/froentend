@@ -14,6 +14,7 @@ const GET_ALLUSERS_PATH = `http://localhost:${PORT_API}/users/`;
 const SUBSCRIPTION_API = `http://localhost:${PORT_API}/subscriptions/`;
 
 
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -48,7 +49,60 @@ export class AuthService {
       phoneNumber
     }, httpOptions);
   }
+// {
+//   "password": "$2a$10$e6EjOazPGWohSUuWaNgJnukAYWyOj9iYBEyjM.0ZtUWk0r.RzJfMa",
+//   "email": "lordnyks@gmail.com",
+//   "username": "lordnyks@gmail.com",
+//   "profile": {
+//       "id": 1,
+//       "firstName": "Nicusor",
+//       "lastName": "Vlads",
+//       "phoneNumber": "0755123463",
+//       "address": {
+//           "county": null,
+//           "city": null,
+//           "townShip": null,
+//           "village": null,
+//           "street": null,
+//           "gateNumber": null
+//       },
+//       "dateOfBirth": "1999-12-03T22:00:00.000+00:00",
+//       "gender": "masculin",
+//       "age": null,
+//       "personalIdentificationNumber": null
+//   }
+// }
+  updateUser(user: IUser, id: number) : Observable<IUser> {
 
+    let tempUser: IUser = {
+      password: user.password,
+      email: user.email,
+      username: user.username,
+      profile: {
+        firstName: user.profile?.firstName,
+        lastName: user.profile?.lastName,
+        phoneNumber: user.profile?.phoneNumber,
+        address: {
+          county: user.profile?.address?.county,
+          city: user.profile?.address?.city,
+          townShip: user.profile?.address?.townShip,
+          village: user.profile?.address?.village,
+          street: user.profile?.address?.street,
+          gateNumber: user.profile?.address?.gateNumber
+        },
+        dateOfBirth: user.profile?.dateOfBirth,
+        gender: user.profile?.gender,
+        age: user.profile?.age,
+        personalIdentificationNumber: user.profile?.personalIdentificationNumber
+      }
+    };
+    
+
+
+
+    console.log(tempUser);
+    return this.http.put<IUser>(GET_ALLUSERS_PATH + id, tempUser, httpOptions);
+  }
 
   saveSubscription(userId: number, dateOfCreation: Date, firstName: string, lastName: string, expireDate: Date,
            plateNumber: string, made: string, model: string, description: string) {

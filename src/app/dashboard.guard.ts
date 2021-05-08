@@ -16,8 +16,7 @@ export class DashboardGuard implements CanActivate {
 
   canActivate() : boolean {
     console.log('asdasd');
-    if(this.isLoggedIn) {
-      // this.router.navigate(['/home']);
+    if(!this.isLoggedIn) {
       return true;
     }  
     return false;

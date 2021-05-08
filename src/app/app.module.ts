@@ -25,6 +25,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PageNotfoundComponent } from './page-notfound/page-notfound.component';
 import { AcceptDialogComponent } from './accept-dialog/accept-dialog.component';
 import { UsersResolverService } from './users-resolver.service';
+import { OptionRcaComponent } from './option-rca/option-rca.component';
+import { OptionCarteidentitateComponent } from './option-carteidentitate/option-carteidentitate.component';
+import { OptionRovComponent } from './option-rov/option-rov.component';
+import { OptionItpComponent } from './option-itp/option-itp.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -39,7 +44,11 @@ import { UsersResolverService } from './users-resolver.service';
     AdminDashboardComponent,
     UserProfileComponent,
     PageNotfoundComponent,
-    AcceptDialogComponent
+    AcceptDialogComponent,
+    OptionRcaComponent,
+    OptionCarteidentitateComponent,
+    OptionRovComponent,
+    OptionItpComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +64,7 @@ import { UsersResolverService } from './users-resolver.service';
   ],
   providers: [
     UsersResolverService,
+    CookieService,
     
   {
     provide: HTTP_INTERCEPTORS,
