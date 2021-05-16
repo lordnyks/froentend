@@ -2,13 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { NavbarComponent } from './navbar/navbar.component';
-
 import { MaterialModule } from './material/material.module';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +28,8 @@ import { OptionCarteidentitateComponent } from './option-carteidentitate/option-
 import { OptionRovComponent } from './option-rov/option-rov.component';
 import { OptionItpComponent } from './option-itp/option-itp.component';
 import { CookieService } from 'ngx-cookie-service';
-
+import { MatMenuModule } from '@angular/material/menu';
+import { SubscriptionsPanelComponent } from './subscriptions-panel/subscriptions-panel.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,8 @@ import { CookieService } from 'ngx-cookie-service';
     OptionRcaComponent,
     OptionCarteidentitateComponent,
     OptionRovComponent,
-    OptionItpComponent
+    OptionItpComponent,
+    SubscriptionsPanelComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +60,9 @@ import { CookieService } from 'ngx-cookie-service';
     MatPaginatorModule,
     MatTableModule,
     ReactiveFormsModule,
-    MatSortModule  
+    MatSortModule,
+    MatMenuModule,
+
   ],
   providers: [
     UsersResolverService,

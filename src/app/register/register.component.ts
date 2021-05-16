@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
     
     this.authService.register(firstName,lastName,dateOfBirth,email,email, password,gender,phoneNumber).subscribe(
       data => {
-        this.openSnackBar();
+        this.openSnackBar('Înregistrarea a avut loc cu succes!', 2500);
         this.isSuccessful = true;
         this.router.navigate(['login']);
       },
@@ -58,10 +58,19 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  notLogged() : boolean {
+    if(this.authService.isLoggedIn()) {
+      this.router.navigate(['home']);
+      this.openSnackBar('Ești deja logat!', 2500);
+      return false;
+    }
 
-  openSnackBar() {
-    this.snackBar.open(`Înregistrarea a avut loc cu succes!`, 'Închide', {
-      duration: 2000,
+    return true;
+  }
+
+  openSnackBar(message: string, time: number) {
+    this.snackBar.open(message, 'Închide', {
+      duration: time,
     });
   }
   

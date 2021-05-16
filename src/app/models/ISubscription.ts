@@ -13,6 +13,7 @@
 
 export interface ISubscription {
     userId: number,
+    email: string,
     dateOfCreation: Date,
     firstName: string,
     lastName: string,

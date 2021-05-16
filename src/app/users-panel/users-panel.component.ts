@@ -7,7 +7,8 @@ import { IUser } from '../models/IUser';
 import { AuthService } from '../services/auth/auth.service';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class UsersPanelComponent implements AfterViewInit {
   public formControl = new FormControl();
   public displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName','phoneNumber', 'editUser'];
   public dataSource = new MatTableDataSource<IUser>();
+  public dialogRef!: MatDialogRef<AcceptDialogComponent>;
 
   private userRole: string;
   public canEdit: boolean;
@@ -29,7 +31,7 @@ export class UsersPanelComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService, private snackBar: MatSnackBar,public dialog: MatDialog) {
     this.userRole = this.authService.getUserRole();
     this.canEdit = this.userRole == 'ROLE_ADMIN' ? true : this.userRole == 'ROLE_SUPERVISOR' ? true : this.userRole == 'ROLE_MODERATOR' ? true : false;
     this.canDelete = this.userRole == 'ROLE_ADMIN' ? true : false;
@@ -63,10 +65,11 @@ export class UsersPanelComponent implements AfterViewInit {
   }
 
   editare(input: string) {
-
+    
   }
 
   public stergere(id: string, email: string, role: string) : void {
+    
     if(role == 'ROLE_ADMIN') {
       this.message('Nu ai acces pentru a sterge acest utilizator!'); 
       return;
@@ -80,6 +83,19 @@ export class UsersPanelComponent implements AfterViewInit {
     });
   }
 
+  confirm(id: string, email: string, role: string) {
+    this.dialogRef = this.dialog.open(AcceptDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = `Ești sigur că dorești să ștergi acest user? (${email})`;
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.stergere(id, email, role);
+      }
+
+    });
+  }
   public message(message: string) {
     this.snackBar.open(message, 'Închide', {
       duration: 2500,

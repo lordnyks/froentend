@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-accept-dialog',
@@ -8,13 +8,21 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AcceptDialogComponent implements OnInit {
 
-  public hasAccepted: boolean;
-
-  constructor(public dialog: MatDialog) {
-    this.hasAccepted = false;
-   }
+  
+  constructor(public dialogRef: MatDialogRef<AcceptDialogComponent>) {
+    
+  }
+  public confirmMessage!: string;
 
   ngOnInit(): void {
+  }
+
+  onConfirm() {
+    this.dialogRef.close(true);
+  }
+
+  onDismiss() {
+    this.dialogRef.close(false);
   }
 
 }

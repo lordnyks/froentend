@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
   public errorMessage = '';
   public user!: IUser;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router, private formBuilder: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router, private formBuilder: FormBuilder, 
+    private snackBar: MatSnackBar) {
 
     this.loginForm = formBuilder.group({
         username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
@@ -43,13 +44,17 @@ export class LoginComponent implements OnInit {
       this.authService.retrieveUser(username).subscribe(result => {
         this.authService.setUser(result[0]);
         this.user = result[0];
-        this.openSnackBar(this.user?.profile?.firstName, this.user?.profile?.lastName);
+        this.snackBar.open(`Bine ai venit, ${this.user?.profile?.firstName} ${this.user?.profile?.lastName}!`, 'Închide', { duration: 2500 } );
+        
+        
+        // this.openSnackBar();
         this.router.navigate(['home']);
-     });
+      });
 
     }, err => {
       this.errorMessage = err.error.message;
     });
+
 
   }
 
@@ -61,9 +66,10 @@ export class LoginComponent implements OnInit {
     this.authService.signOut();
   }
 
-  openSnackBar(firstName: any, lastName: any) {
-    this.snackBar.open(`Bine ai venit, ${firstName} ${lastName}!`, 'Închide', {
-      duration: 2500,
+
+  openSnackBar(message: string, time: number) {
+    this.snackBar.open(message, 'Închide', {
+      duration: time,
     });
   }
 }

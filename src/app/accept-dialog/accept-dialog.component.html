@@ -1,6 +1,7 @@
 <mat-dialog-content>
-  This is a dialog
+  {{confirmMessage}}
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Okay</button>
+<mat-dialog-actions class="components">
+  <button class="dismiss" mat-raised-button color="primary" (click)="onDismiss()">Nu</button>
+  <button class="confirm" mat-raised-button color="primary" (click)="onConfirm()">Da</button>
 </mat-dialog-actions>

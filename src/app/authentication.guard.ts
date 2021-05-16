@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { TokenStorageService } from './services/auth/token-storage.service';
+import { CanActivate, Router } from '@angular/router';
+import { AuthService } from './services/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationGuard implements CanActivate {
+export class AuthenticationGuard implements CanActivate{
 
-  constructor(private authService: TokenStorageService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private messageBar: MatSnackBar) {
 
   }
   
-  isLoggedIn = this.authService.isLoggedIn();
-
+  
   canActivate(): boolean {
-    if(this.isLoggedIn && this.authService.getUserRole() == 'ROLE_ADMIN') {
+    let isLoggedIn: boolean = this.authService.isLoggedIn();
+
+    if(isLoggedIn) {
+      console.log('auth-guard');
       return true;
     } else {
+      this.messageBar.open('Loghează-te pentru a accesa această pagină!', 'Închide', { duration: 3000});
       this.router.navigate(['login']);
       return false;
     }
   }
   
+
 }

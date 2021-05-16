@@ -6,6 +6,9 @@ import { IUser } from '../models/IUser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ISubscription } from '../models/ISubscription';
 import { MatTableDataSource } from '@angular/material/table';
+import { PageNotfoundComponent } from '../page-notfound/page-notfound.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 
 
 @Component({
@@ -31,44 +34,103 @@ export class UserProfileComponent implements OnInit {
   public nume!: string;
   public prenume!: string;
   public telefon!: string;
+  public email!: string;
   public dataNasterii!: Date;
   public errorMessage: string = '';
-  public formGroup!: FormGroup;
   
-  displayedColumns: string[] = ['plateNumber', 'made', 'model', 'description', 'expireDate'];
+  public updateUserDetailsForm!: FormGroup;
+  public dialogRef!: MatDialogRef<AcceptDialogComponent>;
+
+  
+  displayedColumns: string[] = ['plateNumber', 'made', 'model', 'description', 'expireDate', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
 
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private authService: AuthService,
-    private snackBar: MatSnackBar) {}
-
-
-
-  ngOnInit() : void {
-         
+    private snackBar: MatSnackBar, public dialog: MatDialog) {}
   
 
-    this.activatedRoute.data.subscribe(
-      data => { 
-        this.myUser = data.user[0];
-        this.userId = this.myUser.id!; 
-        this.prenume = this.myUser.profile?.firstName! === null ? 'nedefinit' : this.myUser.profile?.firstName!;
-        this.nume = this.myUser.profile?.lastName  === null ? 'nedefinit' : this.myUser.profile?.lastName!;
-        this.telefon = this.myUser.profile?.phoneNumber === null ? 'nedefinit' : this.myUser.profile?.phoneNumber!;
-        this.dataNasterii = this.myUser.profile?.dateOfBirth! === null ? new Date("01/01/100") : this.myUser.profile?.dateOfBirth!;
-        console.log(data.user[0]);
+  ngOnInit() : void {
+        
+    this.authService.retrieveUser(this.authService.getUsername()).subscribe(
+        data => {
+          this.myUser = data[0];
+          this.userId = this.myUser.id!; 
+          this.prenume = this.myUser.profile?.firstName! === null ? 'nedefinit' : this.myUser.profile?.firstName!;
+          this.nume = this.myUser.profile?.lastName  === null ? 'nedefinit' : this.myUser.profile?.lastName!;
+          this.telefon = this.myUser.profile?.phoneNumber === null ? 'nedefinit' : this.myUser.profile?.phoneNumber!;
+          this.dataNasterii = this.myUser.profile?.dateOfBirth! === null ? new Date("01/01/100") : this.myUser.profile?.dateOfBirth!;
+          this.email = this.myUser.email === null ? 'nedefinit' : this.myUser.email!;
+          
 
-      }
-    );
-
-    this.authService.getSubscription(this.userId).subscribe(
-      data =>  {
-        this.dataSource = new MatTableDataSource(data);
-      }
-    );
+          this.updateUserDetailsForm = this.formBuilder.group({
+            firstName: [
+              this.prenume,
+              [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(32),
+                Validators.pattern('[a-zA-Z]+'),
+              ],
+            ],
+            lastName: [
+              this.nume,
+              [
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(32),
+                Validators.pattern('[a-zA-Z]+'),
+              ],
+            ],
+            phoneNumber: [
+              this.telefon,
+              [
+                Validators.required,
+                Validators.minLength(1),
+                Validators.maxLength(32),
+              ],
+            ],
+            dateOfBirth: [this.dataNasterii, [Validators.required]],
+          });
+          
+          console.log(data[0]);
+          this.authService.getSubscription(this.userId).subscribe(
+            data =>  {
+              this.dataSource = new MatTableDataSource(data);
+            }
+          );
+        }
+        );
     
+    this.activatedRoute.data.subscribe(
+        data => { 
+            this.myUser = data.user[0];
+            this.userId = this.myUser.id!; 
+            this.prenume = this.myUser.profile?.firstName! === null ? 'nedefinit' : this.myUser.profile?.firstName!;
+            this.nume = this.myUser.profile?.lastName  === null ? 'nedefinit' : this.myUser.profile?.lastName!;
+            this.telefon = this.myUser.profile?.phoneNumber === null ? 'nedefinit' : this.myUser.profile?.phoneNumber!;
+            this.dataNasterii = this.myUser.profile?.dateOfBirth! === null ? new Date("01/01/100") : this.myUser.profile?.dateOfBirth!;
+            this.email = this.myUser.email === null ? 'nedefinit' : this.myUser.email!;
 
+            // console.log(data.user[0]);
+            this.updateUserDetailsForm = this.formBuilder.group({
+              firstName: [this.prenume, [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+') ]],
+              lastName: [this.nume, [Validators.required, Validators.minLength(3), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+              phoneNumber: [this.telefon, [Validators.required, Validators.minLength(1), Validators.maxLength(32)]],
+              dateOfBirth: [this.dataNasterii, [Validators.required]]
+            });
+          }
+          
+        );
+        
+        this.authService.getSubscription(this.userId).subscribe(
+            data =>  {
+                this.dataSource = new MatTableDataSource(data);
+              });
+
+  
   }
+
 
 
 
@@ -79,32 +141,87 @@ export class UserProfileComponent implements OnInit {
     // }
 
 
-    const { plateNumber, made, model, expireDate } = input.value;
+    const { firstName, lastName, plateNumber, made, model, expireDate } = input.value;
 
 
-    this.authService.saveSubscription(this.userId, this.dateNow, this.prenume, this.nume, expireDate, plateNumber, made, model, this.selected).subscribe( 
+    this.authService.saveSubscription(this.userId, this.email, this.dateNow, firstName, lastName, expireDate, plateNumber, made, model, this.selected).subscribe( 
       data => {
         this.openSnackBar('Salvarea a avut loc cu succes!');
         this.ngOnInit();
+        
       }, 
       err => {
-        this.openSnackBar('Salvarea a esuat!');
         this.errorMessage = err.error.message;
+        this.openSnackBar(`Salvarea a esuat!`);
       });
   }
   
-  test() {
-    this.authService.updateUser(this.myUser, this.userId).subscribe(
+  updateUserDetails() {
+
+    const {firstName, lastName, phoneNumber, dateOfBirth } = this.updateUserDetailsForm.value;
+    let tempUser: IUser = {
+      password: this.myUser.password,
+      email: this.myUser.email,
+      username: this.myUser.username,
+      profile: {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        address: {
+          county: this.myUser.profile?.address?.county,
+          city: this.myUser.profile?.address?.city,
+          townShip: this.myUser.profile?.address?.townShip,
+          village: this.myUser.profile?.address?.village,
+          street: this.myUser.profile?.address?.street,
+          gateNumber: this.myUser.profile?.address?.gateNumber
+        },
+        dateOfBirth: dateOfBirth,
+        gender: this.myUser.profile?.gender,
+        age: this.myUser.profile?.age,
+        personalIdentificationNumber: this.myUser.profile?.personalIdentificationNumber
+      }
+    };
+    this.authService.updateUser(tempUser, this.userId).subscribe(
       data => {
-        
         this.openSnackBar('Salvarea a avut loc cu succes!');
+        this.ngOnInit();
+
       }, 
       err => {
         this.openSnackBar('Salvarea a esuat!');
+        this.ngOnInit();
         this.errorMessage = err.error.message;
       }
     );
     
+  }
+
+
+  confirm(id: number) {
+    this.dialogRef = this.dialog.open(AcceptDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = `Ești sigur că dorești să ștergi acest abonament?`;
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.remove(id);
+      }
+
+    });
+  }
+
+  remove(id: number) {
+    this.authService.removeSubscription(id).subscribe(
+      data => {
+        this.openSnackBar('Ștergerea a fost efectuată cu succes!');
+        this.ngOnInit();
+      },
+      err => {
+        this.openSnackBar('Ștergerea a eșuat!');
+
+      }
+    )
   }
 
   openSnackBar(message: string) {
@@ -112,5 +229,7 @@ export class UserProfileComponent implements OnInit {
       duration: 2000,
     });
   }
+
+
 
 }

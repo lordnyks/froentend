@@ -10,31 +10,34 @@
     </mat-card>
   </div> -->
 
-</div>
 
+
+<form [formGroup]="updateUserDetailsForm">
 <mat-form-field appearance="fill">
   <mat-label>Nume</mat-label>
-  <input matInput placeholder="{{nume}}" value="{{nume}}">
+  <input matInput placeholder="{{nume}}" formControlName="lastName">
 </mat-form-field>
 
 <mat-form-field appearance="fill">
   <mat-label>Prenume</mat-label>
-  <input matInput placeholder="{{prenume}}" value="{{prenume}}">
+  <input matInput placeholder="{{prenume}}" formControlName="firstName">
 </mat-form-field>
 
 
 <mat-form-field appearance="fill">
   <mat-label>Telefon</mat-label>
-  <input matInput placeholder="{{telefon}}" value="{{telefon}}">
+  <input matInput placeholder="{{telefon}}" formControlName="phoneNumber">
 </mat-form-field>
 
 
 <mat-form-field appearance="fill"   >
 <mat-label>Data nașterii</mat-label>
-<input matInput [value]="dataNasterii"  placeholder="{{dataNasterii | date}}"  [matDatepicker]="picker" >
+<input matInput  placeholder="{{dataNasterii | date}}"  [matDatepicker]="picker" formControlName="dateOfBirth">
 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 <mat-datepicker #picker disabled="false" ></mat-datepicker>
 </mat-form-field>
+<button mat-raised-button color="primary" (click)="updateUserDetails()">Actualizează</button> 
+</form>
 
 
 <mat-form-field appearance="fill">
@@ -68,7 +71,7 @@
 </container-element>
 
 
-
+<!-- 
 <mat-card>
   <mat-card-title class="tableTitle">Acestea sunt abonamentele tale:</mat-card-title>
 
@@ -103,10 +106,19 @@
       <td mat-cell *matCellDef="let element"> {{element.expireDate | date}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acțiuni</th>
+      <td mat-button mat-cell *matCellDef="let element" >
+        <button mat-button><mat-icon>edit</mat-icon></button>
+        <button mat-button (click)="confirm(element.id)">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </td>
+
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </mat-card-content>
-</mat-card>
-
-<button mat-button (click)="test()">test</button> 
+</mat-card> -->

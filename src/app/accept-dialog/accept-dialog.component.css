@@ -1,0 +1,13 @@
+.components {
+    display: flex;
+    place-items: flex-start;
+    align-items: flex-start;
+}
+
+.confirm {
+    background-color: red;
+}
+
+.dismiss {
+    background-color: green;
+}

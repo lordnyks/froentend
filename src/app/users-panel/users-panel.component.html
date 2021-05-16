@@ -40,7 +40,7 @@
                 <button *ngIf="canEdit" mat-button (click)="editare(row.id)"> 
                   <mat-icon matTooltip="Editeaza" matTooltipPosition="right" >edit</mat-icon>
                 </button>
-                <button *ngIf="canDelete" mat-button (click)="stergere(row.id, row.email, row.role)" >
+                <button *ngIf="canDelete" mat-button (click)="confirm(row.id, row.email, row.role)" >
                   <mat-icon matTooltip="Sterge" matTooltipPosition="right" >delete</mat-icon>
                 </button>
               </mat-menu>

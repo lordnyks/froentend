@@ -15,6 +15,8 @@ const SUBSCRIPTION_API = `http://localhost:${PORT_API}/subscriptions/`;
 
 
 
+
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -96,21 +98,30 @@ export class AuthService {
         personalIdentificationNumber: user.profile?.personalIdentificationNumber
       }
     };
-    
-
-
-
-    console.log(tempUser);
     return this.http.put<IUser>(GET_ALLUSERS_PATH + id, tempUser, httpOptions);
   }
 
-  saveSubscription(userId: number, dateOfCreation: Date, firstName: string, lastName: string, expireDate: Date,
+  saveSubscription(userId: number, email: string, dateOfCreation: Date, firstName: string, lastName: string, expireDate: Date,
            plateNumber: string, made: string, model: string, description: string) {
-    return this.http.post(SUBSCRIPTION_API, { userId, dateOfCreation, firstName, lastName, expireDate, plateNumber, made, model, description }, httpOptions)
+    return this.http.post(SUBSCRIPTION_API, { userId, email, dateOfCreation, firstName, lastName, expireDate, plateNumber, made, model, description }, httpOptions)
   }
 
+  
   getSubscription(userId: number) {
     return this.http.get<ISubscription[]>(SUBSCRIPTION_API + userId, httpOptions);
+  }
+
+  getSubscriptionByDescription(userId: number, description: string) {
+    return this.http.get<ISubscription[]>(SUBSCRIPTION_API + userId + '?description=' + description, httpOptions);
+  }
+  
+  getSubscriptions() {
+    return this.http.get<ISubscription[]>(SUBSCRIPTION_API, httpOptions);
+
+  }
+
+  removeSubscription(id: number) {
+    return this.http.delete(SUBSCRIPTION_API + id);
   }
 
   delete(id: number) : Observable<any> {
