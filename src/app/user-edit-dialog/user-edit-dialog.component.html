@@ -1,0 +1,27 @@
+<form [formGroup]="updateUserDetailsForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Nume</mat-label>
+      <input matInput placeholder="Popescu" formControlName="lastName">
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Prenume</mat-label>
+      <input matInput placeholder="Viorel" formControlName="firstName">
+    </mat-form-field>
+    
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Telefon</mat-label>
+      <input matInput placeholder="0751529321" formControlName="phoneNumber">
+    </mat-form-field>
+    
+    
+    <mat-form-field appearance="fill"   >
+    <mat-label>Data nașterii</mat-label>
+    <input matInput  placeholder="{{dateNow | date}}"  [matDatepicker]="picker" formControlName="dateOfBirth">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" ></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="updateUserDetails()">Actualizează</button> 
+    </form>
+    

@@ -11,7 +11,6 @@ import { MaterialModule } from './material/material.module';
 import { RegisterComponent } from './register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthenticationGuard } from './authentication.guard';
 import { TokenInterceptorService } from './services/auth/token-interceptor.service';
 import { UsersPanelComponent } from './users-panel/users-panel.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -28,8 +27,15 @@ import { OptionCarteidentitateComponent } from './option-carteidentitate/option-
 import { OptionRovComponent } from './option-rov/option-rov.component';
 import { OptionItpComponent } from './option-itp/option-itp.component';
 import { CookieService } from 'ngx-cookie-service';
-import { MatMenuModule } from '@angular/material/menu';
 import { SubscriptionsPanelComponent } from './subscriptions-panel/subscriptions-panel.component';
+import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
+import { CommonModule } from '@angular/common';
+import { AdminPanelModule } from './admin-panel/admin-panel.module';
+import { ChartCommonModule } from '@swimlane/ngx-charts';
+
+import { ChartsModule } from 'ng2-charts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 
 @NgModule({
   declarations: [
@@ -49,8 +55,10 @@ import { SubscriptionsPanelComponent } from './subscriptions-panel/subscriptions
     OptionRovComponent,
     OptionItpComponent,
     SubscriptionsPanelComponent,
+    UserEditDialogComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -61,7 +69,11 @@ import { SubscriptionsPanelComponent } from './subscriptions-panel/subscriptions
     MatTableModule,
     ReactiveFormsModule,
     MatSortModule,
-    MatMenuModule,
+    AdminPanelModule,
+    ChartCommonModule,
+    NgxChartsModule,
+    ChartsModule
+
 
   ],
   providers: [

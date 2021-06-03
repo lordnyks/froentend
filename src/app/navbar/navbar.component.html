@@ -16,8 +16,8 @@
         <mat-icon matTooltip="Loghează-te" matTooltipPosition="right" >login</mat-icon>
       </a>
       <ng-template #loggedIn>
-        <a *ngIf="isLoggedIn()" mat-list-item routerLinkActive="active" routerLink="user-profile" >
-        <mat-icon matTooltip="Profilul meu" matTooltipPosition="right">account_circle</mat-icon>
+        <a *ngIf="isLoggedIn()"  mat-list-item routerLinkActive="active" routerLink="user-profile" >
+        <mat-icon matBadge="{{alertNumber}}" [matBadgeHidden]="alertNumber <= 0"  matBadgeColor="warn" matTooltip="Profilul meu" matTooltipPosition="right">account_circle</mat-icon>
        </a>
       </ng-template>
       <a *ngIf="isAuthorized()" mat-list-item routerLinkActive="active" routerLink="admin-panel">

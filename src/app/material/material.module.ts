@@ -17,6 +17,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+
 
 
 const MaterialComponents = [
@@ -37,7 +40,9 @@ const MaterialComponents = [
   MatSelectModule,
   MatTabsModule,
   MatMenuModule,
-  MatDialogModule
+  MatDialogModule,
+  MatBadgeModule,
+  MatAutocompleteModule
 ]
 @NgModule({
   imports: [

@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PageNotfoundComponent } from '../page-notfound/page-notfound.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class UserProfileComponent implements OnInit {
 
 
   constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private authService: AuthService,
-    private snackBar: MatSnackBar, public dialog: MatDialog) {}
+    private snackBar: MatSnackBar, public dialog: MatDialog, private navBar: NavbarComponent) {}
   
 
   ngOnInit() : void {
@@ -93,7 +94,7 @@ export class UserProfileComponent implements OnInit {
             dateOfBirth: [this.dataNasterii, [Validators.required]],
           });
           
-          console.log(data[0]);
+          // console.log(data[0]);
           this.authService.getSubscription(this.userId).subscribe(
             data =>  {
               this.dataSource = new MatTableDataSource(data);
@@ -127,12 +128,7 @@ export class UserProfileComponent implements OnInit {
             data =>  {
                 this.dataSource = new MatTableDataSource(data);
               });
-
-  
   }
-
-
-
 
   public onSubmit(input: FormGroup) : void {
 
@@ -197,7 +193,7 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-  confirm(id: number) {
+  confirm(id: number){
     this.dialogRef = this.dialog.open(AcceptDialogComponent, {
       disableClose: false
     });
@@ -206,9 +202,11 @@ export class UserProfileComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.remove(id);
+
       }
 
     });
+
   }
 
   remove(id: number) {
@@ -219,7 +217,6 @@ export class UserProfileComponent implements OnInit {
       },
       err => {
         this.openSnackBar('Ștergerea a eșuat!');
-
       }
     )
   }

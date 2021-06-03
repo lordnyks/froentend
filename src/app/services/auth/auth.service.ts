@@ -17,6 +17,8 @@ const SUBSCRIPTION_API = `http://localhost:${PORT_API}/subscriptions/`;
 
 
 
+
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -51,30 +53,30 @@ export class AuthService {
       phoneNumber
     }, httpOptions);
   }
-// {
-//   "password": "$2a$10$e6EjOazPGWohSUuWaNgJnukAYWyOj9iYBEyjM.0ZtUWk0r.RzJfMa",
-//   "email": "lordnyks@gmail.com",
-//   "username": "lordnyks@gmail.com",
-//   "profile": {
-//       "id": 1,
-//       "firstName": "Nicusor",
-//       "lastName": "Vlads",
-//       "phoneNumber": "0755123463",
-//       "address": {
-//           "county": null,
-//           "city": null,
-//           "townShip": null,
-//           "village": null,
-//           "street": null,
-//           "gateNumber": null
-//       },
-//       "dateOfBirth": "1999-12-03T22:00:00.000+00:00",
-//       "gender": "masculin",
-//       "age": null,
-//       "personalIdentificationNumber": null
-//   }
-// }
   updateUser(user: IUser, id: number) : Observable<IUser> {
+    // {
+    //   "password": "$2a$10$e6EjOazPGWohSUuWaNgJnukAYWyOj9iYBEyjM.0ZtUWk0r.RzJfMa",
+    //   "email": "lordnyks@gmail.com",
+    //   "username": "lordnyks@gmail.com",
+    //   "profile": {
+    //       "id": 1,
+    //       "firstName": "Nicusor",
+    //       "lastName": "Vlads",
+    //       "phoneNumber": "0755123463",
+    //       "address": {
+    //           "county": null,
+    //           "city": null,
+    //           "townShip": null,
+    //           "village": null,
+    //           "street": null,
+    //           "gateNumber": null
+    //       },
+    //       "dateOfBirth": "1999-12-03T22:00:00.000+00:00",
+    //       "gender": "masculin",
+    //       "age": null,
+    //       "personalIdentificationNumber": null
+    //   }
+    // }
 
     let tempUser: IUser = {
       password: user.password,
@@ -101,7 +103,11 @@ export class AuthService {
     return this.http.put<IUser>(GET_ALLUSERS_PATH + id, tempUser, httpOptions);
   }
 
-  saveSubscription(userId: number, email: string, dateOfCreation: Date, firstName: string, lastName: string, expireDate: Date,
+  getAllEmails() : Observable<string[]> {
+    return this.http.get<string[]>(GET_ALLUSERS_PATH + 'allEmails', httpOptions);
+  }
+
+  saveSubscription(userId: number, email: string, dateOfCreation: Date, firstName: string, lastName: string, expireDate: string,
            plateNumber: string, made: string, model: string, description: string) {
     return this.http.post(SUBSCRIPTION_API, { userId, email, dateOfCreation, firstName, lastName, expireDate, plateNumber, made, model, description }, httpOptions)
   }
@@ -109,6 +115,11 @@ export class AuthService {
   
   getSubscription(userId: number) {
     return this.http.get<ISubscription[]>(SUBSCRIPTION_API + userId, httpOptions);
+  }
+
+  getSubscriptionByEmail(email: string) {
+    let tempAPI = `${SUBSCRIPTION_API}email?email=${email}`;
+    return this.http.get<ISubscription[]>(tempAPI, httpOptions);
   }
 
   getSubscriptionByDescription(userId: number, description: string) {
@@ -126,6 +137,14 @@ export class AuthService {
 
   delete(id: number) : Observable<any> {
      return this.http.delete(GET_ALLUSERS_PATH + id);
+  }
+
+  getRole(email: string) : Observable<string> {
+    return this.http.get<string>(GET_ALLUSERS_PATH + 'role?email=' + email, httpOptions);
+  }
+
+  setRole(email: string, role: string) {
+    return this.http.patch(GET_ALLUSERS_PATH + email + '?role=' + role, httpOptions);
   }
 
   isLoggedIn(): boolean {
@@ -155,6 +174,7 @@ export class AuthService {
   clearUser() {
       this.userSubject.next();
   }
+
   
   getUser(): Observable<IUser> {
       return this.userSubject.asObservable();
@@ -166,6 +186,14 @@ export class AuthService {
 
   retrieveUsers() : Observable<IUser[]> {
     return this.http.get<IUser[]>(GET_ALLUSERS_PATH, httpOptions);
+  }
+
+
+  isAuthorizedFully() : boolean {
+    
+    return this.isLoggedIn() && (this.getUserRole() == 'ROLE_ADMIN' || 
+                             this.getUserRole() == 'ROLE_MODERATOR' ||
+                            this.getUserRole() == 'ROLE_SUPERVISOR' || this.getUserRole() == 'ROLE_HELPER');
   }
 
 }

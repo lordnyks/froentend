@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
+import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.component';
 
 
 @Component({
@@ -22,6 +23,9 @@ export class UsersPanelComponent implements AfterViewInit {
   public displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName','phoneNumber', 'editUser'];
   public dataSource = new MatTableDataSource<IUser>();
   public dialogRef!: MatDialogRef<AcceptDialogComponent>;
+  public dialogRefEdit!: MatDialogRef<UserEditDialogComponent>;
+
+
 
   private userRole: string;
   public canEdit: boolean;
@@ -65,6 +69,16 @@ export class UsersPanelComponent implements AfterViewInit {
   }
 
   editare(input: string) {
+
+    this.authService.retrieveUser(input).subscribe(data => {
+      this.dialogRefEdit = this.dialog.open(UserEditDialogComponent, {
+        data: data[0]
+      });
+      this.dialogRefEdit.afterClosed().subscribe(result => {
+        this.ngAfterViewInit();
+  
+    });
+    });
     
   }
 

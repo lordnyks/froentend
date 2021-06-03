@@ -21,7 +21,7 @@ export class AdminCheckGuard implements CanLoad {
       this.isLogged = this.authService.isLoggedIn();
       this.role = this.authService.getUserRole();
 
-      if(this.isLogged && this.role == 'ROLE_ADMIN') {
+      if(this.isLogged && (this.role == 'ROLE_ADMIN' || this.role == 'ROLE_MODERATOR' || this.role == 'ROLE_SUPERVISOR' || this.role == 'ROLE_HELPER')) {
         return true;
       }
 

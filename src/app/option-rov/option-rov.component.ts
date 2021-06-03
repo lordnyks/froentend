@@ -4,6 +4,9 @@ import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { ISubscription } from '../models/ISubscription';
 import { AuthService } from '../services/auth/auth.service';
+import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ExpirationsService } from '../expirations.service';
 
 @Component({
   selector: 'app-option-rov',
@@ -16,10 +19,11 @@ export class OptionRovComponent implements OnInit {
   @ViewChild('f') form: any;
   
   public formGroup!: FormGroup;
+  public dialogRef!: MatDialogRef<AcceptDialogComponent>;
 
   // private currentDate = new Date();
 
-  constructor(private formBuilder: FormBuilder, private userProfile: UserProfileComponent, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, private userProfile: UserProfileComponent, private authService: AuthService, private dialog: MatDialog, public expirations: ExpirationsService) { }
 
   ngOnInit(): void {
 
@@ -40,17 +44,16 @@ export class OptionRovComponent implements OnInit {
 
     const { firstName, lastName, plateNumber, made, model, expireDate } = this.formGroup.value;
 
+    let myTempDate = this.expirations.getRightDate(expireDate);
 
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, this.userProfile.dateNow, firstName, lastName, expireDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, this.userProfile.dateNow, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
       data => {
         this.userProfile.openSnackBar('Salvarea a avut loc cu succes!');
         this.ngOnInit();
         this.form.reset();
-        
       }, 
       err => {
-        // this.errorMessage = err.error.message;
-        this.userProfile.openSnackBar(`Salvarea a esuat!`);
+        this.userProfile.openSnackBar(err.error.message);
       });
 
   }
@@ -60,7 +63,30 @@ export class OptionRovComponent implements OnInit {
   }
 
   confirm(id: number) {
-    this.userProfile.confirm(id);
+    
+    this.dialogRef = this.dialog.open(AcceptDialogComponent, {
+      disableClose: false
+    });
+    this.dialogRef.componentInstance.confirmMessage = `Ești sigur că dorești să ștergi acest abonament?`;
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.refreshUsers();
+        this.remove(id);
+      }
+    });
+  }
+
+  remove(id: number) {
+    this.authService.removeSubscription(id).subscribe(
+      data => {
+        this.userProfile.openSnackBar('Ștergerea a fost efectuată cu succes!');
+        this.refreshUsers();
+      },
+      err => {
+        this.userProfile.openSnackBar('Ștergerea a eșuat!');
+      }
+    )
   }
 
   refreshUsers() {

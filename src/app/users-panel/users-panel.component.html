@@ -37,7 +37,7 @@
           <td mat-cell *matCellDef="let row"> 
             <button mat-button [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon></button>
             <mat-menu #menu="matMenu">
-                <button *ngIf="canEdit" mat-button (click)="editare(row.id)"> 
+                <button *ngIf="canEdit" mat-button (click)="editare(row.email)"> 
                   <mat-icon matTooltip="Editeaza" matTooltipPosition="right" >edit</mat-icon>
                 </button>
                 <button *ngIf="canDelete" mat-button (click)="confirm(row.id, row.email, row.role)" >

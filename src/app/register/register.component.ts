@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['login']);
       },
       err => {
+        this.openSnackBar(err.error.message, 2500);
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       });

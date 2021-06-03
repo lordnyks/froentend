@@ -13,7 +13,7 @@
 }
 
 .background { 
-  background-image: url('../../assets/blur.png');
+  background-image: url('src\assets\images\blur.png');
   background-size: cover;
   background-repeat: no-repeat;
   position:absolute;
