@@ -3,39 +3,41 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { MaterialModule } from './material/material.module';
-import { RegisterComponent } from './register/register.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './services/auth/token-interceptor.service';
-import { UsersPanelComponent } from './users-panel/users-panel.component';
+
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PageNotfoundComponent } from './page-notfound/page-notfound.component';
-import { AcceptDialogComponent } from './accept-dialog/accept-dialog.component';
-import { UsersResolverService } from './users-resolver.service';
-import { OptionRcaComponent } from './option-rca/option-rca.component';
-import { OptionCarteidentitateComponent } from './option-carteidentitate/option-carteidentitate.component';
-import { OptionRovComponent } from './option-rov/option-rov.component';
-import { OptionItpComponent } from './option-itp/option-itp.component';
+
 import { CookieService } from 'ngx-cookie-service';
-import { SubscriptionsPanelComponent } from './subscriptions-panel/subscriptions-panel.component';
-import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
+
 import { CommonModule } from '@angular/common';
 import { AdminPanelModule } from './admin-panel/admin-panel.module';
-import { ChartCommonModule } from '@swimlane/ngx-charts';
-
 import { ChartsModule } from 'ng2-charts';
+import { UsersStatisticsComponent } from './components/users-statistics/users-statistics.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UsersPanelComponent } from './components/users-panel/users-panel.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PageNotfoundComponent } from './components/page-notfound/page-notfound.component';
+import { AcceptDialogComponent } from './components/accept-dialog/accept-dialog.component';
+import { OptionRcaComponent } from './components/option-rca/option-rca.component';
+import { OptionCarteidentitateComponent } from './components/option-carteidentitate/option-carteidentitate.component';
+import { OptionRovComponent } from './components/option-rov/option-rov.component';
+import { OptionItpComponent } from './components/option-itp/option-itp.component';
+import { SubscriptionsPanelComponent } from './components/subscriptions-panel/subscriptions-panel.component';
+import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
+import { MaterialModule } from './components/material/material.module';
+import { UsersResolverService } from './users-resolver.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     OptionItpComponent,
     SubscriptionsPanelComponent,
     UserEditDialogComponent,
+    UsersStatisticsComponent,
   ],
   imports: [
     CommonModule,
@@ -70,9 +73,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     ReactiveFormsModule,
     MatSortModule,
     AdminPanelModule,
-    ChartCommonModule,
-    NgxChartsModule,
-    ChartsModule
+    ChartsModule,
+    NgxChartsModule
+
+
 
 
   ],
