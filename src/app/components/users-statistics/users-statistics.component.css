@@ -1,0 +1,12 @@
+.firstDiagram {
+    width: 25%;
+    height: 25%;
+    display: inline-block;
+    /* padding-top: 225px; */
+}
+
+.secondDiagram {
+    width: 25%;
+    height: 25%;
+    display: inline-block;
+}

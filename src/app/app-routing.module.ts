@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
-import { RegisterComponent } from './register/register.component';
-import { AuthenticationGuard } from './authentication.guard';
-import { UsersPanelComponent } from './users-panel/users-panel.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
-import { UserProfileComponent } from './user-profile/user-profile.component';
-import { PageNotfoundComponent } from './page-notfound/page-notfound.component';
-import { UsersResolverService } from './users-resolver.service';
-import { AdminCheckGuard } from './admin-check.guard';
+import { UsersPanelComponent } from './components/users-panel/users-panel.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AboutComponent } from './components/about/about.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { PageNotfoundComponent } from './components/page-notfound/page-notfound.component';
+import { AuthenticationGuard } from './guards/authentication.guard';
+import { AdminCheckGuard } from './guards/admin-check.guard';
+import { UsersResolverService } from './services/users-resolver.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

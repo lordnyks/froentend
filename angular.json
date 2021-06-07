@@ -20,6 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "chart.js"
+            ],
             "outputPath": "dist/fgm",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -125,6 +128,9 @@
               "devServerTarget": "fgm:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@zeit/ng-deploy:deploy"
         }
       }
     }

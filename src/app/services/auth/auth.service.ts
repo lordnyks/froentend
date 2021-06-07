@@ -107,6 +107,12 @@ export class AuthService {
     return this.http.get<string[]>(GET_ALLUSERS_PATH + 'allEmails', httpOptions);
   }
 
+  getCountUsers() : Observable<number> {
+    return this.http.get<number>(GET_ALLUSERS_PATH + 'countUsers', httpOptions);
+  }
+  
+  
+
   saveSubscription(userId: number, email: string, dateOfCreation: Date, firstName: string, lastName: string, expireDate: string,
            plateNumber: string, made: string, model: string, description: string) {
     return this.http.post(SUBSCRIPTION_API, { userId, email, dateOfCreation, firstName, lastName, expireDate, plateNumber, made, model, description }, httpOptions)
@@ -115,6 +121,12 @@ export class AuthService {
   
   getSubscription(userId: number) {
     return this.http.get<ISubscription[]>(SUBSCRIPTION_API + userId, httpOptions);
+  }
+
+  updateSubscription(subscriptionId: number) : Observable<ISubscription> {
+
+    return this.http.put<ISubscription>(SUBSCRIPTION_API + subscriptionId, httpOptions);
+
   }
 
   getSubscriptionByEmail(email: string) {
@@ -143,8 +155,8 @@ export class AuthService {
     return this.http.get<string>(GET_ALLUSERS_PATH + 'role?email=' + email, httpOptions);
   }
 
-  setRole(email: string, role: string) {
-    return this.http.patch(GET_ALLUSERS_PATH + email + '?role=' + role, httpOptions);
+  setRole(email: string, role: string, asker: string) {
+    return this.http.patch(GET_ALLUSERS_PATH + email + '?role=' + role + '&asker=' + asker, httpOptions);
   }
 
   isLoggedIn(): boolean {

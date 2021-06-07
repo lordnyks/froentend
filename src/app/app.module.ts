@@ -36,8 +36,11 @@ import { OptionItpComponent } from './components/option-itp/option-itp.component
 import { SubscriptionsPanelComponent } from './components/subscriptions-panel/subscriptions-panel.component';
 import { UserEditDialogComponent } from './components/user-edit-dialog/user-edit-dialog.component';
 import { MaterialModule } from './components/material/material.module';
-import { UsersResolverService } from './users-resolver.service';
+
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { UsersResolverService } from './services/users-resolver.service';
+import { SubscriptionEditDialogComponent } from './components/subscription-edit-dialog/subscription-edit-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -59,6 +62,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     SubscriptionsPanelComponent,
     UserEditDialogComponent,
     UsersStatisticsComponent,
+    SubscriptionEditDialogComponent,
   ],
   imports: [
     CommonModule,
