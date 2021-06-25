@@ -1,74 +1,60 @@
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
-import { AuthService } from '../../services/auth/auth.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { ISubscription } from '../../models/ISubscription';
-import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExpirationsService } from 'src/app/services/expirations.service';
-import { SubscriptionEditDialogComponent } from '../subscription-edit-dialog/subscription-edit-dialog.component';
-
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { ISubscription } from 'src/app/models/ISubscription';
 
 @Component({
-  selector: 'app-option-carteidentitate',
-  templateUrl: './option-carteidentitate.component.html',
-  styleUrls: ['./option-carteidentitate.component.css']
+  selector: 'app-option-rata-la-banca',
+  templateUrl: './option-rata-la-banca.component.html',
+  styleUrls: ['./option-rata-la-banca.component.css']
 })
-export class OptionCarteidentitateComponent implements OnInit {
-
-  displayedColumns: string[] = ['lastName', 'firstName', 'expireDate', 'actions'];
-  public dataSource = new MatTableDataSource<ISubscription>();
-
-  public dialogRef!: MatDialogRef<AcceptDialogComponent>;
-  // public editDialog!: MatDialogRef<SubscriptionEditDialogComponent>; 
-  
-  @ViewChild('f') myNgForm: any;
+export class OptionRataLaBancaComponent implements OnInit {
   public formGroup!: FormGroup;
+  @ViewChild('f') myNgForm: any;
 
   public nume: string =  '';
   public prenume: string = '';
+  public dialogRef!: MatDialogRef<AcceptDialogComponent>;
 
-
-
-  constructor(private formBuilder: FormBuilder, private userProfile: UserProfileComponent, private dialog: MatDialog,
-     private authService: AuthService, public expirations: ExpirationsService) {
-    this.nume = userProfile.nume;
-    this.prenume = userProfile.prenume;
-   }
+  displayedColumns: string[] = ['firstName', 'lastName', 'banca', 'payData', 'actions'];
+  public dataSource = new MatTableDataSource<ISubscription>();
+  
+  constructor(private userProfile: UserProfileComponent, private dialog: MatDialog,
+    public expirations: ExpirationsService,private authService: AuthService, private formBuilder: FormBuilder) { 
+      this.nume = userProfile.nume;
+      this.prenume = userProfile.prenume;
+    }
 
   ngOnInit(): void {
-
-
-    // console.log(this.dateNow);
-    // console.log(this.getRightDate());
     this.refreshUsers();
-    
-    
 
     this.formGroup = this.formBuilder.group({
       firstName: [this.nume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
       lastName: [this.prenume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      banca: ['Banca Transilvania', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
       expireDate: [new Date(), [Validators.required]],      
     });
   }
 
-
-  
   onSubmit() {
 
     if(this.formGroup.invalid) {
       return;
     }
 
-    const { firstName, lastName, plateNumber, made, model, expireDate } = this.formGroup.value;
+    const { firstName, lastName, banca, expireDate} = this.formGroup.value;
 
     let myTempDate = this.expirations.getRightDate(expireDate);
     let myTempString = this.userProfile.dateNow.toLocaleDateString();
     
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString , firstName, lastName, undefined , myTempDate, undefined, undefined, undefined, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString, firstName, lastName, banca , myTempDate, undefined, undefined, undefined, this.userProfile.selected).subscribe( 
       data => {
-        this.userProfile.openSnackBar('Cartea ta de idenitate a fost salvată cu succes!');
+        this.userProfile.openSnackBar('Rata dumneavoastră la bancă a fost salvată cu succes!');
         this.ngOnInit();
         this.myNgForm.reset();
         
@@ -125,13 +111,10 @@ export class OptionCarteidentitateComponent implements OnInit {
     this.userProfile.openSnackBar(`Stergerea realizata cu succes`);
   }
   refreshUsers() {
-    this.authService.getSubscriptionByDescription(this.userProfile.userId, 'ci').subscribe(
+    this.authService.getSubscriptionByDescription(this.userProfile.userId, 'rlb').subscribe(
       (data: ISubscription[]) => {
         this.dataSource = new MatTableDataSource(data);
       } );
   }
 
-
-
 }
-

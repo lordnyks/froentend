@@ -16,7 +16,7 @@
   
   <mat-form-field appearance="fill">
     <mat-label>Data expirării</mat-label>
-    <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
+    <input matInput placeholder="LL/ZZ/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
     <mat-error *ngIf="formGroup.get('expireDate')?.invalid">Data expirării nu are un format corect.</mat-error>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker disabled="false" ></mat-datepicker>

@@ -44,8 +44,8 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Gestionare documente</span>
-      <div class="name" style="position: absolute; top: 0; right: 0; width: 100px; text-align:right;" *ngIf="isLoggedIn()">{{user.profile!.lastName}}</div>
+      <span style="width:100%;">Gestionare documente</span>
+      <a routerLink="user-profile" class="email" *ngIf="isLoggedIn()">{{user.profile?.firstName}} {{user.profile?.lastName}} </a>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

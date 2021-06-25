@@ -17,6 +17,17 @@
 }
 
 
-.name {
-  text-align: right;
+.email {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  right: 5px;
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s;
+  /* width: 100%; */
+}    
+
+.email:hover {
+  opacity: 0.6;
 }

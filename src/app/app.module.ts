@@ -40,6 +40,10 @@ import { MaterialModule } from './components/material/material.module';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { UsersResolverService } from './services/users-resolver.service';
 import { SubscriptionEditDialogComponent } from './components/subscription-edit-dialog/subscription-edit-dialog.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
+import { OptionRataLaBancaComponent } from './components/option-rata-la-banca/option-rata-la-banca.component';
+import { OptionImpozitComponent } from './components/option-impozit/option-impozit.component';
 
 
 @NgModule({
@@ -63,6 +67,10 @@ import { SubscriptionEditDialogComponent } from './components/subscription-edit-
     UserEditDialogComponent,
     UsersStatisticsComponent,
     SubscriptionEditDialogComponent,
+    ResetPasswordComponent,
+    ResetPasswordFormComponent,
+    OptionRataLaBancaComponent,
+    OptionImpozitComponent,
   ],
   imports: [
     CommonModule,
@@ -87,6 +95,7 @@ import { SubscriptionEditDialogComponent } from './components/subscription-edit-
   providers: [
     UsersResolverService,
     CookieService,
+    UsersStatisticsComponent,
     
   {
     provide: HTTP_INTERCEPTORS,

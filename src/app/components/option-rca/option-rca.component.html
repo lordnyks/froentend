@@ -1,25 +1,30 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm" >
-    <mat-form-field appearance="fill">
+<div class="container">
+
+  <div class="row">
+    <div class="col-xl-3 pl-2">
+    <mat-form-field appearance="fill" >
     <mat-label>Număr mașină</mat-label>
     <input matInput placeholder="AG 22 UNV" formControlName="plateNumber" >
     <mat-error *ngIf="formGroup.get('plateNumber')?.invalid">Numărul mașinii este invalid.</mat-error>
-
   </mat-form-field>
-  
+  </div>
+
+  <div class="col-xl-3">
   <mat-form-field appearance="fill">
     <mat-label>Marca</mat-label>
     <input matInput placeholder="Dacia" formControlName="made">
     <mat-error *ngIf="formGroup.get('made')?.invalid">Marca mașinii este invalidă.</mat-error>
   </mat-form-field>
-
-
+</div>
+  <div class="col-xl-3">
   <mat-form-field appearance="fill">
     <mat-label>Model</mat-label>
     <input matInput placeholder="Sandero" formControlName="model">
     <mat-error *ngIf="formGroup.get('model')?.invalid">Modelul mașinii nu este inserat.</mat-error>
-
   </mat-form-field>
-
+</div>
+<div class="col-xl-3">
   <mat-form-field appearance="fill"   >
     <mat-label>Data expirării</mat-label>
     <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate" >
@@ -28,12 +33,19 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker disabled="false" ></mat-datepicker>
   </mat-form-field>
+  </div>
 
-  <button mat-raised-button color="primary">Adaugă</button>
-
+  <div class="col-xl-3">
+    <div class="pb-3">
+      <button mat-raised-button color="primary">Adaugă</button>
+    </div>
+  </div>
+</div>
+</div>
 </form>
 
-<mat-card>
+<div class="container">
+<mat-card >
   <mat-card-title class="tableTitle">Acestea sunt asigurările rca ale dumneavoastră:</mat-card-title>
 
     <mat-card-content>
@@ -76,3 +88,4 @@
     </table>
   </mat-card-content>
 </mat-card>
+</div>

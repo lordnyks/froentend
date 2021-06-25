@@ -25,7 +25,7 @@ export class ExpirationsService {
       let day = input.getDate();
   
       return `${year}-${this.calculateWithZero(month)}-${this.calculateWithZero(day)}`
-    }
+  }
 
   public  calculateWithZero(input: number) : string {
       switch(input) {

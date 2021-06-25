@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, Form } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { AuthService } from '../../services/auth/auth.service';
+import { SubscriptionsPanelComponent } from '../subscriptions-panel/subscriptions-panel.component';
+import { UsersPanelComponent } from '../users-panel/users-panel.component';
+import { UsersStatisticsComponent } from '../users-statistics/users-statistics.component';
 
 export const _filter = (opt: string[], value: string): string[] => {
   const filterValue = value.toLowerCase();
@@ -17,18 +21,21 @@ export const _filter = (opt: string[], value: string): string[] => {
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-
+  
+  @ViewChild(UsersStatisticsComponent) private componentUpdateStatistics!: UsersStatisticsComponent;
+  @ViewChild(UsersPanelComponent) private componentUpdateUsersPanel!: UsersPanelComponent;
+  @ViewChild(SubscriptionsPanelComponent) private componentUpdateSubscriptions!: SubscriptionsPanelComponent;
   public formControl = new FormControl('', [Validators.required, Validators.email]);
   public role = new FormControl('', [Validators.required]);
   public selected = 'ROLE_MEMBER';
   public userRole!: string;
   options!: string[];
   filteredOptions!: Observable<string[]>;
+  
 
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    
     
     
     this.authService.getAllEmails().subscribe(data => {
@@ -52,7 +59,13 @@ export class AdminDashboardComponent implements OnInit {
   canSeeTab() : boolean{
     return this.authService.isLoggedIn() && (this.authService.getUserRole() == 'ROLE_ADMIN' ||  this.authService.getUserRole() == 'ROLE_SUPERVISOR');
   }
+  canSeeStatistics() : boolean {
+    return this.authService.isLoggedIn() && (this.authService.getUserRole() == 'ROLE_ADMIN' ||  this.authService.getUserRole() == 'ROLE_SUPERVISOR' || this.authService.getUserRole() == 'ROLE_MODERATOR' || this.authService.getUserRole() == 'ROLE_HELPER');
+  }
 
+  canSeeUsersRoles() : boolean {
+    return this.authService.isLoggedIn() && (this.authService.getUserRole() == 'ROLE_ADMIN' ||  this.authService.getUserRole() == 'ROLE_SUPERVISOR' || this.authService.getUserRole() == 'ROLE_MODERATOR');
+  }
   onSubmit() {
     const email= this.formControl.value;
     const role = this.role.value;
@@ -64,8 +77,8 @@ export class AdminDashboardComponent implements OnInit {
 
     this.authService.setRole(email, role, this.authService.getUsername()).subscribe(
       data => {
+        this.componentUpdateStatistics.getRoles();
         this.message(`${email} are acum rolul de ${this.interpretateRole(role)}.`);
-        
       }, 
       err => {
         this.message(err.error.message);
@@ -106,6 +119,14 @@ export class AdminDashboardComponent implements OnInit {
       duration: 2500,
     });
   }
+
+  onTabChange(event : MatTabChangeEvent) {
+    
+    
+    // this.componentUpdateUsersPanel.ngAfterViewInit();
+    //  this.componentUpdateStatistics.getMades();
+    // this.componentUpdateSubscriptions.ngOnInit();
+}
 
 
 }

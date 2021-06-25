@@ -50,9 +50,11 @@ export class OptionRcaComponent implements OnInit {
 
     const { firstName, lastName, plateNumber, made, model, expireDate } = this.formGroup.value;
 
+    console.log(expireDate);
     let myTempDate = this.expirations.getRightDate(expireDate);
+    let myTempString = this.userProfile.dateNow.toLocaleDateString();
 
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, this.userProfile.dateNow, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
       data => {
         this.userProfile.openSnackBar('Salvarea a avut loc cu succes!');
         this.ngOnInit();

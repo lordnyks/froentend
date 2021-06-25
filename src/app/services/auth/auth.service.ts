@@ -1,10 +1,15 @@
 import { ISubscription } from './../../models/ISubscription';
 import { Injectable, NgModule } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { IUser } from 'src/app/models/IUser';
 import { Subject } from 'rxjs';
+import { IResetPassword } from '../../models/IResetPasword';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ResetPasswordFormComponent } from '../../components/reset-password-form/reset-password-form.component';
+
 
 
 const PORT_API = '8081';
@@ -26,13 +31,11 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-
-
 export class AuthService {
 
   private userSubject = new Subject<IUser>();
-
-  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) { }
+  private dialogRef!: MatDialogRef<ResetPasswordFormComponent>;
+  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService, private snackBar: MatSnackBar, ) { }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(AUTH_API + 'login', {
@@ -111,11 +114,39 @@ export class AuthService {
     return this.http.get<number>(GET_ALLUSERS_PATH + 'countUsers', httpOptions);
   }
   
-  
+  savePassword(email: string, reset: IResetPassword) : boolean{
+    this.http.patch(GET_ALLUSERS_PATH + 'resetPassword?email=' + email + '&password=' , reset , httpOptions).subscribe(data => {
+      this.snackBar.open('Parola a fost modificată cu succes.', 'Închide', { 
+        duration: 2500
+      });
 
-  saveSubscription(userId: number, email: string, dateOfCreation: Date, firstName: string, lastName: string, expireDate: string,
-           plateNumber: string, made: string, model: string, description: string) {
-    return this.http.post(SUBSCRIPTION_API, { userId, email, dateOfCreation, firstName, lastName, expireDate, plateNumber, made, model, description }, httpOptions)
+      return true;
+
+    }, err => {
+      this.snackBar.open(err.error.message, 'Închide', { 
+        duration: 2500
+      });
+      return false;
+    });
+
+    return false;
+  }
+
+  sendEmail(email: string)  {
+    this.http.patch(GET_ALLUSERS_PATH + 'sendTokenEmail?email=' + email, httpOptions).subscribe(data => {
+      this.snackBar.open('Verifică caseta de email.', 'Închide', { 
+        duration: 2500
+      });
+    },err => {
+      this.snackBar.open(err.error.message, 'Închide', { 
+        duration: 2500
+      });
+    });
+  }
+
+  saveSubscription(userId: number, email: string, dateOfCreation: string, firstName?: string, lastName?: string,banca?: string, expireDate?: string,
+           plateNumber?: string, made?: string, model?: string, personalIdentificationNumber?: string, mentions?: string, fullAddress?: string, description?: string) {
+    return this.http.post(SUBSCRIPTION_API, { userId, email, dateOfCreation, firstName, lastName, banca, expireDate, plateNumber, made, model, personalIdentificationNumber, mentions, fullAddress, description }, httpOptions)
   }
 
   
@@ -123,11 +154,17 @@ export class AuthService {
     return this.http.get<ISubscription[]>(SUBSCRIPTION_API + userId, httpOptions);
   }
 
-  updateSubscription(subscriptionId: number) : Observable<ISubscription> {
+  getSubscriptionBy(subscriptionId: number) {
+    return this.http.get<ISubscription>(SUBSCRIPTION_API + 'id?id=' + subscriptionId, httpOptions);
+  }
 
-    return this.http.put<ISubscription>(SUBSCRIPTION_API + subscriptionId, httpOptions);
+  updateSubscription(subscriptionId: number, subscription: ISubscription) : Observable<ISubscription> {
+
+    return this.http.put<ISubscription>(SUBSCRIPTION_API + subscriptionId, subscription, httpOptions);
 
   }
+
+  
 
   getSubscriptionByEmail(email: string) {
     let tempAPI = `${SUBSCRIPTION_API}email?email=${email}`;

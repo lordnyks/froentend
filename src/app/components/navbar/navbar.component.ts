@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IUser } from 'src/app/models/IUser';
 import { ISubscription } from 'src/app/models/ISubscription';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserDetailsService } from '../../services/user-details.service';
 
 
 
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   
   public user!: IUser;
   public expireAlert: BehaviorSubject<ISubscription[]> = new BehaviorSubject<ISubscription[]>([]);
+  public details: BehaviorSubject<IUser> = new BehaviorSubject<IUser>({});
   public myInterval: any;
   public alertNumber: number = 0;
   public notificationsList!: Array<ISubscription>;
@@ -31,44 +33,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserDetailsService) {
+  }
        
   ngOnInit() : void {
     
     this.isLogged = this.isLoggedIn();
-    console.log(this.isLoggedIn())
+    this.getUser();
     if(this.isLogged) {
-      this.myInterval = setInterval(
-        () => {
-          this.authService.getSubscriptionByEmail(this.authService.getUsername()).subscribe(data => {
-            this.expireAlert.next(data.filter(item => {
 
-            let myDate = new Date(item.expireDate);
-            let secondDate = new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(),
-                                      new Date().getHours(), new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
-            
-            
-         
-            if(new Date(new Date().setDate(new Date().getDate() + 10)) >= secondDate) {
-              return true;
-            }
 
-            return false;
-          }))
-          
-        })
-      }, 2000);
+      this.authService.retrieveUser(this.authService.getUsername()).subscribe(result => {
+        this.details.next(result[0]);
+      });
+  
+      this.retrieveSubscriptions();
 
    
-    this.getNotifications();
-  
-  
-    
-      this.authService.retrieveUser(this.authService.getUsername()).subscribe(result => {
-        this.authService.setUser(result[0]);
-        this.user = result[0]; 
-      });
+      this.getNotifications();
+
+
     }
+
+    
+  }
+
+  getUser() {
+    this.details.asObservable().subscribe(data => {
+      this.user = data;
+    });
   }
   
   getNotifications() {
@@ -89,6 +82,35 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.expireAlert.complete();
    }
 
+
+   retrieveSubscriptions() {
+
+    if(this.isLogged) {
+        this.myInterval = setInterval(
+          () => {
+            console.log(this.isLogged);
+            this.authService.getSubscriptionByEmail(this.authService.getUsername()).subscribe(data => {
+
+              this.expireAlert.next(data.filter(item => {
+
+    
+              let myDate = new Date(item.expireDate);
+              let secondDate = new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate(),
+                                        new Date().getHours(), new Date().getMinutes(), new Date().getSeconds(), new Date().getMilliseconds());
+              
+              
+           
+              if(new Date(new Date().setDate(new Date().getDate() + 10)) >= secondDate) {
+                return true;
+              }
+    
+              return false;
+            }))
+            
+          })
+        }, 2000);
+      }
+   }
   isLoggedIn() : boolean {
     return this.authService.isLoggedIn();
   }

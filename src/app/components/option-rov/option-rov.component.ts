@@ -8,6 +8,7 @@ import { ISubscription } from 'src/app/models/ISubscription';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ExpirationsService } from 'src/app/services/expirations.service';
+import { SubscriptionEditDialogComponent } from '../subscription-edit-dialog/subscription-edit-dialog.component';
 
 
 
@@ -23,6 +24,7 @@ export class OptionRovComponent implements OnInit {
   
   public formGroup!: FormGroup;
   public dialogRef!: MatDialogRef<AcceptDialogComponent>;
+  public dialogRefEditSubscription!: MatDialogRef<SubscriptionEditDialogComponent>;
 
   // private currentDate = new Date();
 
@@ -48,8 +50,9 @@ export class OptionRovComponent implements OnInit {
     const { firstName, lastName, plateNumber, made, model, expireDate } = this.formGroup.value;
 
     let myTempDate = this.expirations.getRightDate(expireDate);
+    let myTempString = this.userProfile.dateNow.toLocaleDateString();
 
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, this.userProfile.dateNow, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
       data => {
         this.userProfile.openSnackBar('Salvarea a avut loc cu succes!');
         this.ngOnInit();
@@ -63,6 +66,29 @@ export class OptionRovComponent implements OnInit {
 
   reset() {
     this.form.reset();
+  }
+
+  edit(id: number) {
+
+
+    this.authService.getSubscriptionBy(id).subscribe(data => {
+      console.log(id);
+      console.log(data);
+      this.dialogRefEditSubscription = this.dialog.open(SubscriptionEditDialogComponent, {
+        data: data
+      });
+
+      this.dialogRefEditSubscription.afterClosed().subscribe(result => {
+        if(result) {
+          this.ngOnInit();
+          console.log('yes');
+        }
+      });
+    });
+ 
+
+
+
   }
 
   confirm(id: number) {

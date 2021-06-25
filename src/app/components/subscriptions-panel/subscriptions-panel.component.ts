@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -6,6 +6,8 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { ISubscription } from 'src/app/models/ISubscription';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UsersStatisticsComponent } from '../users-statistics/users-statistics.component';
+import { UserDetailsService } from '../../services/user-details.service';
 
 @Component({
   selector: 'app-subscriptions-panel',
@@ -19,9 +21,10 @@ export class SubscriptionsPanelComponent implements OnInit {
   public colorB = 'default';  
   public myEmail!: string;
 
+
   displayedColumns: string[] = ['email', 'plateNumber', 'made', 'model', 'description', 'expireDate', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
-  constructor(private authService: AuthService, private snackBar: MatSnackBar,private dialog: MatDialog) { }
+  constructor(private authService: AuthService, private snackBar: MatSnackBar,private dialog: MatDialog, private userStatistics: UsersStatisticsComponent) { }
 
   ngOnInit(): void {
 
@@ -45,6 +48,7 @@ export class SubscriptionsPanelComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.remove(id);
+
       }
 
     });
@@ -55,6 +59,9 @@ export class SubscriptionsPanelComponent implements OnInit {
       data => {
         this.openSnackBar('Stergerea a fost efectuata cu succes!');
         this.ngOnInit();
+        this.userStatistics.getMadesObservable();
+        // this.detailsService.getAllMades().subscribe(data => this.madesCount$.next(data));
+
       },
       err => {
         this.openSnackBar('Stergerea a eșuat!');

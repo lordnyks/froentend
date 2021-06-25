@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { BehaviorSubject } from 'rxjs';
+import { UserDetailsService } from '../../services/user-details.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +10,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   
-  public expireAlert: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
   
-  constructor(private authService: AuthService) {
-    
+  constructor(private infoService: UserDetailsService) {
+
   }
 
   ngOnInit(): void {

@@ -8,7 +8,7 @@
     </mat-form-field>
     
     <mat-form-field class="my-form-field" appearance="outline" color="accent">
-      <mat-label>Password</mat-label>
+      <mat-label>Parola</mat-label>
       <input matInput type="password" name="password" formControlName="password">
       <mat-error *ngIf="loginForm.get('password')?.invalid">Parola invalidă.</mat-error>
     </mat-form-field>
@@ -22,7 +22,7 @@
     <a class="bottom" routerLinkActive="active" routerLink="/register">Înregistrează-te</a>
   </li>
   <li >
-    <a class="bottom" routerLinkActive="active" routerLink="/forgotPassword">Ai uitat parola?</a>
+    <a class="bottom" (click)="forgotPassword()">Ai uitat parola?</a>
   </li>
   </ul>
 

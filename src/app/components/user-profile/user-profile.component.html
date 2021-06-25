@@ -1,4 +1,5 @@
 <div class="background">
+  <div class="container">
   <!-- <div class="container">
     <mat-card class="editCard">
       <div class="editForm">
@@ -12,34 +13,113 @@
 
 
 
+
 <form [formGroup]="updateUserDetailsForm">
-<mat-form-field appearance="fill">
-  <mat-label>Nume</mat-label>
-  <input matInput placeholder="{{nume}}" formControlName="lastName">
-</mat-form-field>
 
-<mat-form-field appearance="fill">
-  <mat-label>Prenume</mat-label>
-  <input matInput placeholder="{{prenume}}" formControlName="firstName">
-</mat-form-field>
+  <div class="container">
 
-
-<mat-form-field appearance="fill">
-  <mat-label>Telefon</mat-label>
-  <input matInput placeholder="{{telefon}}" formControlName="phoneNumber">
-</mat-form-field>
+<mat-card class="container">
+  <mat-card-title class="text-center mb-4 mt-3">Informațiile contului dumneavoastră</mat-card-title>
+  <div class="row">
+    <div class ="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Nume</mat-label>
+    <input matInput placeholder="{{nume}}" formControlName="lastName">
+  </mat-form-field>
+</div>
 
 
-<mat-form-field appearance="fill"   >
-<mat-label>Data nașterii</mat-label>
-<input matInput  placeholder="{{dataNasterii | date}}"  [matDatepicker]="picker" formControlName="dateOfBirth">
-<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-<mat-datepicker #picker disabled="false" ></mat-datepicker>
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="updateUserDetails()">Actualizează</button> 
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Prenume</mat-label>
+    <input matInput placeholder="{{prenume}}" formControlName="firstName">
+  </mat-form-field>
+</div>
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Telefon</mat-label>
+    <input matInput placeholder="{{telefon}}" formControlName="phoneNumber">
+  </mat-form-field>
+</div>
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Județ</mat-label>
+    <input matInput placeholder="{{county}}" formControlName="county">
+  </mat-form-field>
+</div>
+</div>
+
+<div class="row">
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Oraș</mat-label>
+    <input matInput placeholder="{{city}}" formControlName="city">
+  </mat-form-field>
+</div>
+
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Localitate</mat-label>
+    <input matInput placeholder="{{townShip}}" formControlName="townShip">
+  </mat-form-field>
+</div>
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Strada</mat-label>
+    <input matInput placeholder="{{street}}" formControlName="street">
+  </mat-form-field>
+</div>
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Număr</mat-label>
+    <input matInput placeholder="{{gateNumber}}" formControlName="gateNumber">
+  </mat-form-field>
+</div>
+
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Sex</mat-label>
+    <input matInput placeholder="{{gender}}" formControlName="gender">
+  </mat-form-field>
+</div>
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill">
+    <mat-label>Cod numeric personal</mat-label>
+    <input matInput placeholder="{{cnp}}" formControlName="cnp">
+  </mat-form-field>
+</div>
+
+
+<div class="col-xl-3 ">
+  <mat-form-field appearance="fill"   >
+    <mat-label>Data nașterii</mat-label>
+      <input matInput  placeholder="{{dataNasterii | date}}"  [matDatepicker]="picker" formControlName="dateOfBirth">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false" ></mat-datepicker>
+  </mat-form-field>
+</div>
+  <div class="col-xl-3 btn-lg btn-block">
+    <div class="">
+    <button  mat-raised-button color="primary" (click)="updateUserDetails()">Actualizează</button>
+  </div>
+  </div>
+</div>
+
+</mat-card>
+</div>
+
 </form>
 
-
+<div class="container">
+  <mat-card class="container">
+    <mat-card-title class="text-center">Documentele dumneavoastră</mat-card-title>
 <mat-form-field appearance="fill">
   <mat-label>Tipul</mat-label>
   <mat-select [(value)]="selected">
@@ -48,6 +128,8 @@
     <mat-option value="ci">Carte de identitate</mat-option>
     <mat-option value="rov">Rovinieta</mat-option>
     <mat-option value="itp">ITP</mat-option>
+    <mat-option value="rlb">Rata la bancă</mat-option>
+    <mat-option value="impozit">Impozit</mat-option>
   </mat-select>
 </mat-form-field>
 
@@ -65,11 +147,20 @@
   <div *ngSwitchCase="'itp'">
       <app-option-itp></app-option-itp>
   </div> 
+  <div *ngSwitchCase="'rlb'">
+    <app-option-rata-la-banca></app-option-rata-la-banca>
+</div> 
+<div *ngSwitchCase="'impozit'">
+  <app-option-impozit></app-option-impozit>
+
+</div> 
   <!--default case when there are no matches -->
   <p *ngSwitchDefault></p>
  
 </container-element>
-
+</mat-card>
+</div>
+</div>
 
 <!-- 
 <mat-card>

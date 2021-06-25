@@ -12,15 +12,27 @@ import { UserEditDialogComponent } from '../user-edit-dialog/user-edit-dialog.co
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { state, style, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-users-panel',
   templateUrl: './users-panel.component.html',
-  styleUrls: ['./users-panel.component.css']
+  styleUrls: ['./users-panel.component.css'],
+  // animations: [
+  //   trigger('divState', [
+  //     state('normal', style({
+  //       'backgroud-color': 'red',
+  //       transofrm: 'translateX(0)'
+  //     })),
+  //     state('highlighted', style({
+        
+  //     }))
+  //   ])
+  // ]
 })
 export class UsersPanelComponent implements AfterViewInit {
-
+  public state = 'normal';
   public formControl = new FormControl();
   public displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName','phoneNumber', 'editUser'];
   public dataSource = new MatTableDataSource<IUser>();

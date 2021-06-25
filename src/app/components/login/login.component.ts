@@ -6,6 +6,11 @@ import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 import { AppComponent } from '../../app.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ResetPasswordComponent } from '../reset-password/reset-password.component';
+
+
 
 
 @Component({
@@ -18,10 +23,11 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public errorMessage = '';
   public user!: IUser;
+  
 
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router, private formBuilder: FormBuilder, 
-    private snackBar: MatSnackBar, private component: AppComponent) {
+    private snackBar: MatSnackBar, private component: AppComponent, private navBar: NavbarComponent, private dialog: MatDialog ) {
 
     this.loginForm = formBuilder.group({
         username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
@@ -33,6 +39,10 @@ export class LoginComponent implements OnInit {
 
   }
 
+
+  forgotPassword() {
+    this.dialog.open(ResetPasswordComponent);
+  }
   onSubmit() : void  {
 
     if(this.loginForm.invalid) {
@@ -51,6 +61,7 @@ export class LoginComponent implements OnInit {
         this.component.title = `${this.user?.profile?.firstName} ${this.user?.profile?.lastName}`;
         
         // this.openSnackBar();
+        this.navBar.ngOnInit();
         this.router.navigate(['home']);
       });
 

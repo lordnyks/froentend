@@ -12,15 +12,20 @@
 */
 
 export interface ISubscription {
+    id: number,
     userId: number,
     email: string,
     dateOfCreation: Date,
-    firstName: string,
-    lastName: string,
-    expireDate: Date,
-    plateNumber: string,
-    made: string,
-    model: string,
+    firstName?: string,
+    lastName?: string,
+    banca?: string,
+    expireDate: string,
+    plateNumber?: string,
+    made?: string,
+    model?: string,
+    personalIdentificationNumber?: string,
+    mentions?: string,
+    fullAddress?: string,
     description: string
 }
   
