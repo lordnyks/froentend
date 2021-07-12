@@ -30,3 +30,25 @@ mat-card {
     display: inline-block;
 }
 
+
+@media (max-width: 575px){
+
+    mat-form-field {
+        width: 230px;
+    }
+    
+}
+
+
+
+@media (max-width: 563px){
+
+    mat-form-field {
+        width: 220px;
+    }
+    
+}
+
+
+
+

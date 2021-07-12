@@ -75,7 +75,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Acțiuni</th>
       <td mat-button mat-cell *matCellDef="let element" >
-        <button mat-button><mat-icon>edit</mat-icon></button>
+        <button mat-button (click)="edit(element.id)"><mat-icon>edit</mat-icon></button>
         <button mat-button (click)="confirm(element.id)">
           <mat-icon>clear</mat-icon>
         </button>

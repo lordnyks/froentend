@@ -14,6 +14,7 @@ export class UsersResolverService implements Resolve<IUser[]> {
   constructor(private authService: AuthService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IUser[]> {
+
     return this.authService.retrieveUser(this.authService.getUsername());
   }
 }

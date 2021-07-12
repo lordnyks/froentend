@@ -7,6 +7,9 @@ import { ExpirationsService } from '../../services/expirations.service';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OptionRovComponent } from '../option-rov/option-rov.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { ISubscriptionSaverHelper } from '../../models/ISubscriptionSaverHelper';
+import { ValidationFieldsService } from '../../services/validation-fields.service';
 
 @Component({
   selector: 'app-subscription-edit-dialog',
@@ -21,7 +24,7 @@ export class SubscriptionEditDialogComponent implements OnInit {
   @ViewChild('f') form: any;
   
   constructor(@Inject(MAT_DIALOG_DATA) public data: ISubscription, public dialog: MatDialogRef<SubscriptionEditDialogComponent>, private formBuilder: FormBuilder, private authService: AuthService,
-  private expirations: ExpirationsService, private snackBar: MatSnackBar ) {
+  private expirations: ExpirationsService, private snackBar: MatSnackBar, private validations: ValidationFieldsService ) {
    }
 
   ngOnInit(): void {
@@ -29,9 +32,9 @@ export class SubscriptionEditDialogComponent implements OnInit {
     this.subscription = this.data;
 
     this.formGroup = this.formBuilder.group({
-      plateNumber: [this.subscription.plateNumber, [Validators.required, Validators.pattern('^[AB|AR|AG|BC|BH|BN|BT|BV|BR|BZ|CS|CJ|CL|CT|CV|DB|DJ|GL|GR|GJ|HR|HD|IS|IL|MM|MH|MS|NT|OT|PH|SM|SJ|SB|TR|TM|TL|VS|VN|B]{1,2}\\s[0-9]{2,3}\\s[A-Z]{3}$')]], // B\\s[0-9]{2,3}\\s[A-Z]{3}
-      made: [this.subscription.model, [Validators.required, Validators.minLength(2), Validators.maxLength(32)]],
-      model: [this.subscription.made, [Validators.required, Validators.minLength(1), Validators.maxLength(32)]],
+      plateNumber: [this.subscription.plateNumber, [Validators.required, Validators.pattern(this.validations.patternForPlateNumber)]],
+      made: [this.subscription.made, [Validators.required, Validators.minLength(2), Validators.maxLength(32)]],
+      model: [this.subscription.model, [Validators.required, Validators.minLength(1), Validators.maxLength(32)]],
       expireDate: [this.subscription.expireDate, [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],      
     });
   }
@@ -45,14 +48,17 @@ export class SubscriptionEditDialogComponent implements OnInit {
 
     const { plateNumber, made, model, expireDate } = this.formGroup.value;
 
+
+    console.log(`Made: ${made} + Model: ${model}`);
     let myTempDate = this.expirations.getRightDate(new Date(expireDate));
-    let myTempString = new Date().toLocaleDateString();
+    // let myTempString = new Date().toLocaleDateString();
 
 
     
-    this.authService.updateSubscription(this.subscription.id, {email: this.subscription.email, plateNumber: plateNumber, made: made, model: model, expireDate: myTempDate, description: this.subscription.description} as ISubscription).subscribe( 
+    this.authService.updateSubscriptionCars(this.subscription.id, {email: this.subscription.email, plateNumber: plateNumber, made: made,model: model,expireDate: myTempDate } as ISubscriptionSaverHelper ).subscribe( 
       data => {
         this.openSnackBar('Salvarea a avut loc cu succes!');
+        console.log(data);
         this.dialog.close(true);
         this.form.reset();
 

@@ -26,6 +26,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public notificationsList!: Array<ISubscription>;
   public isLogged: boolean = false;
 
+  public isValid = false;
+
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -37,8 +39,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
        
   ngOnInit() : void {
-    
+
     this.isLogged = this.isLoggedIn();
+
     this.getUser();
     if(this.isLogged) {
 
@@ -88,7 +91,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if(this.isLogged) {
         this.myInterval = setInterval(
           () => {
-            console.log(this.isLogged);
             this.authService.getSubscriptionByEmail(this.authService.getUsername()).subscribe(data => {
 
               this.expireAlert.next(data.filter(item => {

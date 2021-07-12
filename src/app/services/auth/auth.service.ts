@@ -9,6 +9,7 @@ import { IResetPassword } from '../../models/IResetPasword';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ResetPasswordFormComponent } from '../../components/reset-password-form/reset-password-form.component';
+import { ISubscriptionSaverHelper } from '../../models/ISubscriptionSaverHelper';
 
 
 
@@ -57,29 +58,6 @@ export class AuthService {
     }, httpOptions);
   }
   updateUser(user: IUser, id: number) : Observable<IUser> {
-    // {
-    //   "password": "$2a$10$e6EjOazPGWohSUuWaNgJnukAYWyOj9iYBEyjM.0ZtUWk0r.RzJfMa",
-    //   "email": "lordnyks@gmail.com",
-    //   "username": "lordnyks@gmail.com",
-    //   "profile": {
-    //       "id": 1,
-    //       "firstName": "Nicusor",
-    //       "lastName": "Vlads",
-    //       "phoneNumber": "0755123463",
-    //       "address": {
-    //           "county": null,
-    //           "city": null,
-    //           "townShip": null,
-    //           "village": null,
-    //           "street": null,
-    //           "gateNumber": null
-    //       },
-    //       "dateOfBirth": "1999-12-03T22:00:00.000+00:00",
-    //       "gender": "masculin",
-    //       "age": null,
-    //       "personalIdentificationNumber": null
-    //   }
-    // }
 
     let tempUser: IUser = {
       password: user.password,
@@ -158,7 +136,7 @@ export class AuthService {
     return this.http.get<ISubscription>(SUBSCRIPTION_API + 'id?id=' + subscriptionId, httpOptions);
   }
 
-  updateSubscription(subscriptionId: number, subscription: ISubscription) : Observable<ISubscription> {
+  updateSubscriptionCars(subscriptionId: number, subscription: ISubscriptionSaverHelper) : Observable<ISubscription> {
 
     return this.http.put<ISubscription>(SUBSCRIPTION_API + subscriptionId, subscription, httpOptions);
 
@@ -190,6 +168,11 @@ export class AuthService {
 
   getRole(email: string) : Observable<string> {
     return this.http.get<string>(GET_ALLUSERS_PATH + 'role?email=' + email, httpOptions);
+  }
+
+  getUserRole2(email: string) {
+    return this.http.get<string>(GET_ALLUSERS_PATH + 'roleUser?email=' + email, httpOptions);
+
   }
 
   setRole(email: string, role: string, asker: string) {

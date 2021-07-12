@@ -1,0 +1,62 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm">
+
+    <div class="container">
+  
+      <div class="row">
+  
+        <div class="col-xl-3 pl-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Nume</mat-label>
+          <input matInput placeholder="Nițescu" value="Magion" formControlName="lastName">
+          <mat-error *ngIf="formGroup.get('lastName')?.invalid">Numele este invalid sau necompletat.</mat-error>
+        </mat-form-field>
+      </div>
+  
+      <div class="col-xl-3 pl-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Prenume</mat-label>
+          <input matInput placeholder="Iulian" value="Mirel" formControlName="firstName">
+          <mat-error *ngIf="formGroup.get('firstName')?.invalid">Prenumele este invalid sau necompletat.</mat-error>
+        </mat-form-field>
+    </div>
+    
+      
+  
+    <div class="col-xl-3 pl-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Mențiuni</mat-label>
+          <input matInput placeholder="Impozit casă Buzoiești" value="Impozit teren Arad" formControlName="mentions">
+          <mat-error *ngIf="formGroup.get('mentions')?.invalid">Prenumele este invalid sau necompletat.</mat-error> 
+        </mat-form-field>
+    </div>      
+      
+    <div class="col-xl-3 pl-2">
+        <mat-form-field appearance="fill">
+          <mat-label>Adresa </mat-label>
+          <input matInput placeholder="Impozit casă Buzoiești" value="Impozit teren Arad" formControlName="fullAddress">
+          <mat-error *ngIf="formGroup.get('fullAddress')?.invalid">Adresa este necompletată.</mat-error> 
+        </mat-form-field>
+    </div>
+      
+  
+    <div class="col-xl-3 pl-2">
+        
+        <mat-form-field appearance="fill">
+          <mat-label>Data plății
+          </mat-label>
+          <input matInput placeholder="LL/ZZ/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
+          <mat-error *ngIf="formGroup.get('expireDate')?.invalid">Data expirării nu are un format corect.</mat-error>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false" ></mat-datepicker>
+        </mat-form-field>
+    </div>
+          
+    <div class="col-xl-3">
+      <div class="pb-3">
+        <button mat-raised-button color="primary">Actualizează</button>
+        </div>
+        </div>
+  
+      </div>
+    </div>
+      </form> 

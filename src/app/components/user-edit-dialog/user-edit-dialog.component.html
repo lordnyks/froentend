@@ -1,20 +1,87 @@
 <form [formGroup]="updateUserDetailsForm">
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-xl-3 col-md-4 col-sm-6 col-auto">
     <mat-form-field appearance="fill">
       <mat-label>Nume</mat-label>
       <input matInput placeholder="Popescu" formControlName="lastName">
+      <mat-error *ngIf="updateUserDetailsForm.get('lastName')?.invalid">Numele este invalid.</mat-error>
     </mat-form-field>
     
     <mat-form-field appearance="fill">
       <mat-label>Prenume</mat-label>
       <input matInput placeholder="Viorel" formControlName="firstName">
+      <mat-error *ngIf="updateUserDetailsForm.get('firstName')?.invalid">Prenumele este invalid.</mat-error>
     </mat-form-field>
     
     
-    <mat-form-field appearance="fill">
+    <mat-form-field *ngIf="this.validations.canSeePhone" appearance="fill">
       <mat-label>Telefon</mat-label>
       <input matInput placeholder="0751529321" formControlName="phoneNumber">
+      <mat-error *ngIf="updateUserDetailsForm.get('phoneNumber')?.invalid">Numărul de telefon este invalid.</mat-error>
+    </mat-form-field>
+  </div>
+
+
+  <div class="col-xl-3 col-md-4 col-sm-6 col-auto">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Județ</mat-label>
+      <input matInput placeholder="Argeș" formControlName="county">
+      <mat-error *ngIf="updateUserDetailsForm.get('county')?.invalid">Județul este invalid!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Oraș</mat-label>
+      <input matInput placeholder="Pitești" formControlName="city">
+      <mat-error *ngIf="updateUserDetailsForm.get('city')?.invalid">Orașul poate conține caractere ilegale.</mat-error>
+    </mat-form-field>
+
+  </div>
+
+
+  <div class="col-xl-3 col-md-4 col-sm-6 col-auto">
+    <mat-form-field appearance="fill">
+      <mat-label>Localitate</mat-label>
+      <input matInput placeholder="Albota" formControlName="townShip">
+      <mat-error *ngIf="updateUserDetailsForm.get('townShip')?.invalid">Localitatea este incorectă.</mat-error>
     </mat-form-field>
     
+    <mat-form-field appearance="fill">
+      <mat-label>Strada</mat-label>
+      <input matInput placeholder="Roman Protasevich" formControlName="street">
+      <mat-error *ngIf="updateUserDetailsForm.get('street')?.invalid">Strada este invalidă.</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="col-xl-3 col-md-4 col-sm-6 col-auto">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Număr</mat-label>
+      <input matInput placeholder="46" formControlName="gateNumber">
+      <mat-error *ngIf="updateUserDetailsForm.get('street')?.invalid">Numărul este invalid.</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Sex</mat-label>
+      <mat-select [(value)]="selectedType" formControlName="gender">
+        <mat-option value="masculin">Masculin</mat-option>
+        <mat-option value="feminin">Feminin</mat-option>
+      </mat-select>
+      <mat-error *ngIf="updateUserDetailsForm.get('gender')?.invalid">Nu ai selectat sexul.</mat-error>
+    </mat-form-field>
+  </div>
+    
+  <div class="col-xl-3 col-md-4 col-sm-6 col-auto">
+
+    <mat-form-field *ngIf="this.validations.canSeePhone" appearance="fill">
+      <mat-label>Cod numeric personal</mat-label>
+      <input matInput formControlName="cnp">
+      <mat-error *ngIf="updateUserDetailsForm.get('cnp')?.invalid">Codul numeric personal este invalid.</mat-error>
+    </mat-form-field>
+    
+
     
     <mat-form-field appearance="fill"   >
     <mat-label>Data nașterii</mat-label>
@@ -23,5 +90,9 @@
     <mat-datepicker #picker disabled="false" ></mat-datepicker>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="updateUserDetails()">Actualizează</button> 
+  </div>
+
+  </div>
+</div>
     </form>
     

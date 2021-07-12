@@ -13,6 +13,8 @@ import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component'
 import { IUser } from 'src/app/models/IUser';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { state, style, trigger } from '@angular/animations';
+import { ThemeService } from 'ng2-charts';
+import { ValidationFieldsService } from '../../services/validation-fields.service';
 
 
 @Component({
@@ -34,29 +36,30 @@ import { state, style, trigger } from '@angular/animations';
 export class UsersPanelComponent implements AfterViewInit {
   public state = 'normal';
   public formControl = new FormControl();
-  public displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName','phoneNumber', 'editUser'];
+  public displayedColumns: string[] = ['id', 'email', 'firstName', 'lastName','phoneNumber', 'role', 'editUser'];
   public dataSource = new MatTableDataSource<IUser>();
   public dialogRef!: MatDialogRef<AcceptDialogComponent>;
   public dialogRefEdit!: MatDialogRef<UserEditDialogComponent>;
 
 
 
-  private userRole: string;
-  public canEdit: boolean;
-  public canDelete: boolean;
-  public canSeePhone: boolean;
-
+  
+  
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private authService: AuthService, private snackBar: MatSnackBar, private dialog: MatDialog) {
-    this.userRole = this.authService.getUserRole();
-    this.canEdit = this.userRole == 'ROLE_ADMIN' ? true : this.userRole == 'ROLE_SUPERVISOR' ? true : this.userRole == 'ROLE_MODERATOR' ? true : false;
-    this.canDelete = this.userRole == 'ROLE_ADMIN' ? true : false;
-    this.canSeePhone = this.userRole == 'ROLE_ADMIN' ? true : this.userRole == 'ROLE_SUPERVISOR' ? true : false;
+  constructor(private authService: AuthService, private snackBar: MatSnackBar, private dialog: MatDialog, public validations: ValidationFieldsService) {
+    this.validations.userRole = this.authService.getUserRole();
+    this.validations.canEdit = this.validations.userRole == 'ROLE_ADMIN' ? true : this.validations.userRole == 'ROLE_SUPERVISOR' ? true : this.validations.userRole == 'ROLE_MODERATOR' ? true : this.validations.userRole == 'ROLE_HELPER' ? true : false;
+    this.validations.canDelete = this.validations.userRole == 'ROLE_ADMIN' ? true : false;
+    this.validations.canSeePhone = this.validations.userRole == 'ROLE_ADMIN' ? true : this.validations.userRole == 'ROLE_SUPERVISOR' ? true : false;
   }
+
+
   
   ngAfterViewInit() {
+
     this.authService.retrieveUsers().subscribe(result => {
      this.dataSource = new MatTableDataSource(result);
      this.dataSource.paginator = this.paginator;
@@ -129,9 +132,26 @@ export class UsersPanelComponent implements AfterViewInit {
       duration: 2500,
     });
   }
-  private refresh() {
+  public refresh() {
     this.authService.retrieveUsers().subscribe((data: IUser[]) => {
       this.dataSource = new MatTableDataSource(data);
     });
+  }
+
+  public interpretare(role: string) : string {
+    switch(role) {
+      case 'ROLE_ADMIN':
+        return 'Administrator';
+      case 'ROLE_SUPERVISOR':
+        return "Supervisor";
+      case 'ROLE_MODERATOR':
+        return "Moderator";
+      case 'ROLE_HELPER':
+        return "Helper";
+      
+      default:
+        return 'Membru';
+
+    }
   }
 }

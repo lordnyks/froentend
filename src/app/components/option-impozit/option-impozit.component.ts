@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ExpirationsService } from 'src/app/services/expirations.service';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
+import { SubscriptionImpozitEditDialogComponent } from '../subscription-impozit-edit-dialog/subscription-impozit-edit-dialog.component';
 
 @Component({
   selector: 'app-option-impozit',
@@ -23,6 +24,7 @@ export class OptionImpozitComponent implements OnInit {
   public adresaUser: string = '';
 
   public dialogRef!: MatDialogRef<AcceptDialogComponent>;
+  public dialogRefEditSubscription!: MatDialogRef<SubscriptionImpozitEditDialogComponent>;
 
   displayedColumns: string[] = ['lastName', 'firstName', 'payData', 'mentions', 'fullAddress', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
@@ -41,8 +43,8 @@ export class OptionImpozitComponent implements OnInit {
     this.refreshUsers();
 
     this.formGroup = this.formBuilder.group({
-      firstName: [this.nume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
-      lastName: [this.prenume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      firstName: [this.prenume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      lastName: [this.nume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
       mentions: ['Impozit apartament', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
       fullAddress: [this.adresaUser, [Validators.required]],
       expireDate: [new Date(), [Validators.required]],     
@@ -57,7 +59,7 @@ export class OptionImpozitComponent implements OnInit {
 
     const { firstName, lastName, mentions, fullAddress, expireDate } = this.formGroup.value;
 
-    let myTempDate = this.expirations.getRightDate(expireDate);
+    let myTempDate = this.expirations.getRightDate(new Date(expireDate));
     let myTempString = this.userProfile.dateNow.toLocaleDateString();
     
 
@@ -76,18 +78,23 @@ export class OptionImpozitComponent implements OnInit {
   }
 
 
-  edit(subscriptionId: number) {
-    // this.authService.retrieveUser(input).subscribe(data => {
-    //   this.dialogRefEdit = this.dialog.open(UserEditDialogComponent, {
-    //     data: data[0]
-    //   });
-    //   this.dialogRefEdit.afterClosed().subscribe(result => {
-    //     this.ngAfterViewInit();
-  
-    // });
-    // });
+  edit(id: number) {
 
 
+    this.authService.getSubscriptionBy(id).subscribe(data => {
+      console.log(id);
+      console.log(data);
+      this.dialogRefEditSubscription = this.dialog.open(SubscriptionImpozitEditDialogComponent, {
+        data: data
+      });
+
+      this.dialogRefEditSubscription.afterClosed().subscribe(result => {
+        if(result) {
+          this.ngOnInit();
+          console.log('yes');
+        }
+      });
+    });
   }
   confirm(id: number) {
     

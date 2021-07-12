@@ -12,12 +12,10 @@ export class AuthenticationGuard implements CanActivate{
 
   }
   
-  
   canActivate(): boolean {
     let isLoggedIn: boolean = this.authService.isLoggedIn();
 
     if(isLoggedIn) {
-      console.log('auth-guard');
       return true;
     } else {
       this.messageBar.open('Loghează-te pentru a accesa această pagină!', 'Închide', { duration: 3000});

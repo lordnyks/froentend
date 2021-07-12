@@ -75,6 +75,7 @@ export class AdminDashboardComponent implements OnInit {
     }
 
 
+
     this.authService.setRole(email, role, this.authService.getUsername()).subscribe(
       data => {
         this.componentUpdateStatistics.getRoles();
@@ -97,7 +98,7 @@ export class AdminDashboardComponent implements OnInit {
         return "moderator";
       case "ROLE_SUPERVISOR":
         return "supervisor";
-      case "ROLE_ADMINISTRATOR":
+      case "ROLE_ADMIN":
         return "administrator";
       default:
         return 'necunoscut';

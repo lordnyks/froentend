@@ -1,25 +1,31 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm">
+<div class="container">
 
+  <div class="row">
+    <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
         <mat-label>Număr mașină</mat-label>
         <input matInput placeholder="TM 10 REN" formControlName="plateNumber">
         <mat-error *ngIf="formGroup.get('plateNumber')?.invalid">Numărul mașinii este invalid.</mat-error>
     </mat-form-field>
-    
+  </div>
+  <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
         <mat-label>Marca</mat-label>
         <input matInput placeholder="Audi" formControlName="made">
         <mat-error *ngIf="formGroup.get('made')?.invalid">Marca mașinii este necompletată sau incorectă.</mat-error>
     </mat-form-field>
-    
+  </div>
+
+  <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
         <mat-label>Model</mat-label>
         <input matInput placeholder="A6" formControlName="model">
         <mat-error *ngIf="formGroup.get('model')?.invalid">Modelul este necompletat sau invalid.</mat-error>
-        
     </mat-form-field>
+  </div>    
     
-    
+  <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill"   >
         <mat-label>Data expirării</mat-label>
         <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
@@ -28,10 +34,18 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker disabled="false" ></mat-datepicker>
     </mat-form-field>
-    <button mat-raised-button color="primary">Adaugă</button>
+  </div>
 
+  <div class="col-xl-3">
+    <div class="pb-3">
+    <button mat-raised-button color="primary">Adaugă</button>
+    </div>
+  </div>
+  </div>
+</div>
 </form>
 
+<div class="container">
 <mat-card>
     <mat-card-title class="tableTitle">Acestea sunt rovinietele dumneavoastră înregistrate:</mat-card-title>
   
@@ -75,3 +89,4 @@
       </table>
     </mat-card-content>
   </mat-card>
+</div>

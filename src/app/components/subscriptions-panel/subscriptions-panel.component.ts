@@ -22,7 +22,7 @@ export class SubscriptionsPanelComponent implements OnInit {
   public myEmail!: string;
 
 
-  displayedColumns: string[] = ['email', 'plateNumber', 'made', 'model', 'description', 'expireDate', 'actions'];
+  displayedColumns: string[] = ['email', 'plateNumber', 'made', 'model', 'description', 'banca', 'expireDate', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
   constructor(private authService: AuthService, private snackBar: MatSnackBar,private dialog: MatDialog, private userStatistics: UsersStatisticsComponent) { }
 

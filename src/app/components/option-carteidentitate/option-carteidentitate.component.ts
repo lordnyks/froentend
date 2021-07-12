@@ -8,6 +8,7 @@ import { ISubscription } from '../../models/ISubscription';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { ExpirationsService } from 'src/app/services/expirations.service';
 import { SubscriptionEditDialogComponent } from '../subscription-edit-dialog/subscription-edit-dialog.component';
+import { SubscriptionCiEditDialogComponent } from '../subscription-ci-edit-dialog/subscription-ci-edit-dialog.component';
 
 
 @Component({
@@ -17,11 +18,11 @@ import { SubscriptionEditDialogComponent } from '../subscription-edit-dialog/sub
 })
 export class OptionCarteidentitateComponent implements OnInit {
 
-  displayedColumns: string[] = ['lastName', 'firstName', 'expireDate', 'actions'];
+  displayedColumns: string[] = ['lastName', 'firstName', 'personalIdentificationNumber', 'expireDate', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
 
   public dialogRef!: MatDialogRef<AcceptDialogComponent>;
-  // public editDialog!: MatDialogRef<SubscriptionEditDialogComponent>; 
+  public dialogRefEditSubscription!: MatDialogRef<SubscriptionCiEditDialogComponent>; 
   
   @ViewChild('f') myNgForm: any;
   public formGroup!: FormGroup;
@@ -47,8 +48,9 @@ export class OptionCarteidentitateComponent implements OnInit {
     
 
     this.formGroup = this.formBuilder.group({
-      firstName: [this.nume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
-      lastName: [this.prenume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      firstName: [this.prenume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      lastName: [this.nume, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
+      cnp: [this.userProfile.cnp, [Validators.required, Validators.minLength(4), Validators.maxLength(32), Validators.pattern('[0-9]+')]],
       expireDate: [new Date(), [Validators.required]],      
     });
   }
@@ -61,12 +63,12 @@ export class OptionCarteidentitateComponent implements OnInit {
       return;
     }
 
-    const { firstName, lastName, plateNumber, made, model, expireDate } = this.formGroup.value;
+    const { firstName, lastName, cnp, expireDate } = this.formGroup.value;
 
     let myTempDate = this.expirations.getRightDate(expireDate);
     let myTempString = this.userProfile.dateNow.toLocaleDateString();
     
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString , firstName, lastName, undefined , myTempDate, undefined, undefined, undefined, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString , firstName, lastName, undefined , myTempDate, undefined, undefined, undefined, cnp, undefined, undefined, this.userProfile.selected).subscribe( 
       data => {
         this.userProfile.openSnackBar('Cartea ta de idenitate a fost salvată cu succes!');
         this.ngOnInit();
@@ -81,19 +83,26 @@ export class OptionCarteidentitateComponent implements OnInit {
   }
 
 
-  edit(subscriptionId: number) {
-    // this.authService.retrieveUser(input).subscribe(data => {
-    //   this.dialogRefEdit = this.dialog.open(UserEditDialogComponent, {
-    //     data: data[0]
-    //   });
-    //   this.dialogRefEdit.afterClosed().subscribe(result => {
-    //     this.ngAfterViewInit();
-  
-    // });
-    // });
+  edit(id: number) {
 
 
+    this.authService.getSubscriptionBy(id).subscribe(data => {
+      console.log(id);
+      console.log(data);
+      this.dialogRefEditSubscription = this.dialog.open(SubscriptionCiEditDialogComponent, {
+        data: data
+      });
+
+      this.dialogRefEditSubscription.afterClosed().subscribe(result => {
+        if(result) {
+          this.ngOnInit();
+          console.log('yes');
+        }
+      });
+    });
   }
+
+  
   confirm(id: number) {
     
     this.dialogRef = this.dialog.open(AcceptDialogComponent, {

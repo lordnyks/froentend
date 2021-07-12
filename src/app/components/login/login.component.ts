@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   forgotPassword() {
     this.dialog.open(ResetPasswordComponent);
   }
+  
   onSubmit() : void  {
 
     if(this.loginForm.invalid) {
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
       this.authService.retrieveUser(username).subscribe(result => {
         this.authService.setUser(result[0]);
         this.user = result[0];
-        this.snackBar.open(`Bine ai venit, ${this.user?.profile?.firstName} ${this.user?.profile?.lastName}!`, 'Închide', { duration: 2500 } );
+        this.snackBar.open(`Bine ai venit, ${this.user?.profile?.firstName} ${this.user?.profile?.lastName}!`, 'Închide', { duration: 3500 } );
         this.component.title = `${this.user?.profile?.firstName} ${this.user?.profile?.lastName}`;
         
         // this.openSnackBar();

@@ -1,12 +1,8 @@
 
-
-
-  
-  <div class="container col-md-12">
-    <mat-card class="myCard">
+<div class="container">    <mat-card class="myCard">
       <mat-card-content >
 
-        <div class="firstDiagram">
+        <div class="diagram">
           <canvas baseChart 
             [data]="pieChartDataGender" 
             [labels]="pieChartLabelsGenders" 
@@ -17,7 +13,7 @@
           </canvas>
         </div>
 
-        <div class="secondDiagram" >
+        <div class="diagram" >
           <canvas baseChart 
             [data]="pieChartDataDocuments" 
             [labels]="pieChartLabelsDocuments" 
@@ -27,7 +23,7 @@
             [legend]="pieChartLegend">
           </canvas>
         </div>
-  <div style="display: inline-block; height: 25%; width: 25%;">
+    <div class="diagram">
     <canvas baseChart 
       [data]="pieChartDataRoles" 
       [labels]="pieChartLabelsRoles" 
@@ -36,9 +32,9 @@
       [plugins]="pieChartPlugins"
       [legend]="pieChartLegend">
     </canvas>
-  </div>
+   </div>
 
-  <div style="display: inline-block; height: 25%; width: 25%;">
+    <div class="diagram">
     <canvas baseChart 
       [data]="pieChartDataMades" 
       [labels]="pieChartLabelsMades" 
@@ -48,9 +44,9 @@
       [legend]="pieChartLegend"
       [colors]="chartColors">
     </canvas>
-  </div>
-</mat-card-content>
-</mat-card>
+    </div>
+    </mat-card-content>
+    </mat-card>
 </div>
 
 

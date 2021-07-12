@@ -1,40 +1,45 @@
 
 <mat-card>
-    <mat-card-title class="tableTitle">Acestea sunt toate abonamentele create:</mat-card-title>
+    <mat-card-title class="tableTitle">Acestea sunt documentele sau plățile create de utilizatori:</mat-card-title>
   
       <mat-card-content>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   
         <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef> Email user </th>
-            <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.email}} </td>
+            <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.email}} </td>
           </ng-container> 
       <ng-container matColumnDef="plateNumber">
         <th mat-header-cell *matHeaderCellDef> Număr de înmatriculare </th>
-        <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.plateNumber}} </td>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.plateNumber}} </td>
       </ng-container>
   
       <ng-container matColumnDef="made">
         <th mat-header-cell *matHeaderCellDef> Marca </th>
-        <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.made}} </td>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.made}} </td>
       </ng-container>
   
   
       <ng-container matColumnDef="model">
         <th mat-header-cell *matHeaderCellDef> Model </th>
-        <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.model}} </td>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.model}} </td>
       </ng-container>
   
   
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Tipul </th>
-        <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.description}} </td>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="banca">
+        <th mat-header-cell *matHeaderCellDef> Banca </th>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.banca}} </td>
       </ng-container>
   
   
       <ng-container matColumnDef="expireDate">
         <th mat-header-cell *matHeaderCellDef> Data expirării </th>
-        <td [style]="element.email == 'lordnyks@gmail.com' ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.expireDate | date}} </td>
+        <td [style]="element.email == myEmail ? colorA : colorB" mat-cell *matCellDef="let element"> {{element.expireDate | date}} </td>
       </ng-container>
   
       <ng-container matColumnDef="actions">
@@ -42,7 +47,6 @@
         <td mat-button mat-cell *matCellDef="let element" >
           <button matTooltip="Șterge" matTooltipPosition="left" mat-button (click)="confirm(element.id)" tooltip="test"><mat-icon>clear</mat-icon></button>
         </td>
-  
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

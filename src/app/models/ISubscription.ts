@@ -13,9 +13,9 @@
 
 export interface ISubscription {
     id: number,
-    userId: number,
+    userId?: number,
     email: string,
-    dateOfCreation: Date,
+    dateOfCreation?: Date,
     firstName?: string,
     lastName?: string,
     banca?: string,

@@ -14,6 +14,8 @@ export class ExpirationsService {
   public colorC = 'color: darkgreen; font-weight: bold;';
   public colorD = 'color: orange; font-weight: bold;';
   public colorE = 'color: black;font-weight: bold;';
+
+  
   
   constructor() { 
       

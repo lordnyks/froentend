@@ -1,26 +1,31 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm">
+
+  <div class="container">
+    <div class="row">
+    <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
         <mat-label>Număr mașină</mat-label>
         <input matInput placeholder="OT 29 NYK" formControlName="plateNumber">
         <mat-error *ngIf="formGroup.get('plateNumber')?.invalid">Numărul mașinii nu are un format corect.</mat-error>
-        
     </mat-form-field>
-    
+    </div>
+    <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
-        <mat-label>Marca</mat-label>
-        <input matInput placeholder="BMW" formControlName="made" >
-        <mat-error *ngIf="formGroup.get('made')?.invalid">Marca este invalidă.</mat-error>
-        
+      <mat-label>Marca</mat-label>
+      <input matInput placeholder="BMW" formControlName="made" >
+      <mat-error *ngIf="formGroup.get('made')?.invalid">Marca este invalidă.</mat-error>
     </mat-form-field>
-    
+</div>
+
+<div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill">
         <mat-label>Model</mat-label>
         <input matInput placeholder="X6" formControlName="model">
         <mat-error *ngIf="formGroup.get('model')?.invalid">Modelul este necompletat sau invalid.</mat-error>
-        
     </mat-form-field>
+    </div>
     
-    
+    <div class="col-xl-3 pl-2">
     <mat-form-field appearance="fill"   >
         <mat-label>Data expirării</mat-label>
         <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
@@ -29,9 +34,17 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker disabled="false" ></mat-datepicker>
     </mat-form-field>
+    </div>
+    <div class="col-xl-3">
+      <div class="pb-3">
     <button mat-raised-button color="primary">Adaugă</button>
+      </div>
+    </div>
+  </div>
+</div>
 </form>
 
+<div class="container">
 <mat-card>
     <mat-card-title class="tableTitle">Acestea sunt inspecțiile periodice înregistrate:</mat-card-title>
   
@@ -62,7 +75,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Acțiuni</th>
         <td mat-button mat-cell *matCellDef="let element" >
-          <button mat-button><mat-icon>edit</mat-icon></button>
+          <button mat-button (click)="edit(element.id)"><mat-icon>edit</mat-icon></button>
           <button mat-button (click)="confirm(element.id)">
             <mat-icon>clear</mat-icon>
           </button>
@@ -75,3 +88,4 @@
       </table>
     </mat-card-content>
 </mat-card>
+</div>

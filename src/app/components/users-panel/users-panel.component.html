@@ -1,7 +1,7 @@
 <div class="tabel">
   <mat-form-field>
       <mat-label>Filtrare</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Niculae" #input>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex: exemplu@hotmail.com" #input>
     </mat-form-field>
     
     <div class="mat-elevation-z8">
@@ -17,32 +17,43 @@
         </ng-container>
     
         <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nume </th>
+          <th mat-header-cell *matHeaderCellDef> Nume </th>
           <td mat-cell *matCellDef="let row"> {{row.profile.lastName}} </td>
         </ng-container>
     
         <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Prenume </th>
+          <th mat-header-cell *matHeaderCellDef> Prenume </th>
           <td mat-cell *matCellDef="let row" > {{row.profile.firstName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="phoneNumber" >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header > Telefon </th>
+          <th mat-header-cell *matHeaderCellDef > Telefon </th>
           <td mat-cell *matCellDef="let row" > 
-            <div *ngIf="canSeePhone">{{row.profile.phoneNumber}}</div> </td>
+            <div *ngIf="this.validations.canSeePhone">{{row.profile.phoneNumber}}</div> 
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="editUser" >
+
+        <ng-container matColumnDef="role" >
+          <th mat-header-cell *matHeaderCellDef > Rol </th>
+          <td mat-cell *matCellDef="let row" > 
+            <div *ngIf="this.validations.canEdit">{{interpretare(row.role)}}</div> 
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="editUser"  >
           <th mat-header-cell *matHeaderCellDef> Acțiuni </th>
-          <td mat-cell *matCellDef="let row"> 
-            <button mat-button [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon></button>
+          <td  mat-cell *matCellDef="let row"> 
+           <button mat-button [matMenuTriggerFor]="menu"><mat-icon>settings</mat-icon></button>
             <mat-menu #menu="matMenu">
-                <button *ngIf="canEdit" mat-button (click)="editare(row.email)"> 
+                <button *ngIf="this.validations.canEdit"  mat-button (click)="editare(row.email)"> 
                   <mat-icon matTooltip="Editeaza" matTooltipPosition="right" >edit</mat-icon>
                 </button>
-                <button *ngIf="canDelete" mat-button (click)="confirm(row.id, row.email, row.role)" >
+
+                <button  *ngIf="this.validations.canDelete" mat-button (click)="confirm(row.id, row.email, row.role)" >
                   <mat-icon matTooltip="Sterge" matTooltipPosition="right" >delete</mat-icon>
                 </button>
+
               </mat-menu>
 
           </td>
@@ -52,7 +63,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">Nu gasim "{{input.value}}" in tabel.</td>
+          <td class="mat-cell" colspan="4">Nu găsim "{{input.value}}" in tabel.</td>
         </tr>
       </table>
     

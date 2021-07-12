@@ -44,6 +44,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
 import { OptionRataLaBancaComponent } from './components/option-rata-la-banca/option-rata-la-banca.component';
 import { OptionImpozitComponent } from './components/option-impozit/option-impozit.component';
+import { SubscriptionCiEditDialogComponent } from './components/subscription-ci-edit-dialog/subscription-ci-edit-dialog.component';
+import { SubscriptionRlbEditDialogComponent } from './components/subscription-rlb-edit-dialog/subscription-rlb-edit-dialog.component';
+import { SubscriptionImpozitEditDialogComponent } from './components/subscription-impozit-edit-dialog/subscription-impozit-edit-dialog.component';
 
 
 @NgModule({
@@ -71,6 +74,9 @@ import { OptionImpozitComponent } from './components/option-impozit/option-impoz
     ResetPasswordFormComponent,
     OptionRataLaBancaComponent,
     OptionImpozitComponent,
+    SubscriptionCiEditDialogComponent,
+    SubscriptionRlbEditDialogComponent,
+    SubscriptionImpozitEditDialogComponent,
   ],
   imports: [
     CommonModule,

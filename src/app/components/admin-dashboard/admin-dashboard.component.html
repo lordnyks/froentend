@@ -11,7 +11,7 @@
     <app-users-statistics></app-users-statistics> 
     </mat-tab>
     
-    <mat-tab *ngIf="canSeeUsersRoles()" label="Administrare utilizatori"> 
+    <mat-tab *ngIf="canSeeTab()" label="Administrare utilizatori"> 
       <div class="container align-middle">
       <div class="roleContent align-middle">
       <mat-card >
@@ -34,13 +34,13 @@
 
     <div class="row">
       <mat-form-field class="w-27 p-3" appearance="outline" color="accent" >
-        <mat-label>Grad</mat-label>
+        <mat-label>Rol</mat-label>
         <mat-select [(value)]="selected" [formControl]="role">
           <mat-option value="ROLE_MEMBER">Membru</mat-option>
           <mat-option value="ROLE_HELPER">Helper</mat-option>
           <mat-option value="ROLE_MODERATOR">Moderator</mat-option>
           <mat-option value="ROLE_SUPERVISOR">Supervisor</mat-option>
-          <mat-option value="ROLE_ADMINISTRATOR">Administrator</mat-option>
+          <mat-option value="ROLE_ADMIN">Administrator</mat-option>
         </mat-select>
         <mat-error *ngIf="role.invalid">Nu ai selectat rolul.</mat-error>
       </mat-form-field>

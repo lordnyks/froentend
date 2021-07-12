@@ -29,7 +29,7 @@ export interface IProfile {
   lastName?: string;
   phoneNumber?: string;
   address?: IAddress;
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   gender?: string;
   age?: number;
   personalIdentificationNumber?: string;

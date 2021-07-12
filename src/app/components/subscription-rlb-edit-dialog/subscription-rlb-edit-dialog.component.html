@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" #f="ngForm">
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nume</mat-label>
+        <input matInput placeholder="Popescu" formControlName="lastName">
+        <mat-error *ngIf="formGroup.get('lastName')?.invalid">Numele este necompletat sau conține caractere ilegale.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Prenume</mat-label>
+        <input matInput placeholder="Cristian" formControlName="firstName">
+        <mat-error *ngIf="formGroup.get('firstName')?.invalid">Prenumele este incorect sau nu este completat.</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+        <mat-label>Banca</mat-label>
+        <input matInput placeholder="S|AA|LL|ZZ|JJ|NNN|C" formControlName="banca">
+        <mat-error *ngIf="formGroup.get('banca')?.invalid">Banca este necompletată sau invalidă.</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill"   >
+        <mat-label>Data expirării</mat-label>
+        <input matInput placeholder="ZZ/LL/AAAA"  [matDatepicker]="picker" formControlName="expireDate">
+        <mat-error *ngIf="formGroup.get('expireDate')?.invalid">Data plății este invalidă. (ZZ/LL/AAAA)</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker disabled="false" ></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary">Actualizează</button>
+
+</form>

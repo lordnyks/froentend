@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ValidationFieldsService } from '../../services/validation-fields.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
   public formGroup!: FormGroup;
   public selected = 'feminin';
   
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private snackBar: MatSnackBar, private router: Router,
+    private validators: ValidationFieldsService) {
     
   }
   
@@ -30,10 +32,10 @@ export class RegisterComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
       firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(32)]],
       dateOfBirth: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
-      email: ['', [Validators.required, Validators.minLength(4), Validators.email]],
+      email: ['', [Validators.required, Validators.minLength(4), Validators.email, Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')]],
       gender: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]]
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(this.validators.patternForNumber)]]
     });
   }
 

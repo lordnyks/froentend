@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ISubscription } from 'src/app/models/ISubscription';
 import { AcceptDialogComponent } from '../accept-dialog/accept-dialog.component';
 import { ExpirationsService } from 'src/app/services/expirations.service';
+import { SubscriptionEditDialogComponent } from '../subscription-edit-dialog/subscription-edit-dialog.component';
+import { ValidationFieldsService } from '../../services/validation-fields.service';
 
 
 
@@ -22,25 +24,47 @@ export class OptionRcaComponent implements OnInit {
   displayedColumns: string[] = ['plateNumber', 'made', 'model', 'expireDate', 'actions'];
   public dataSource = new MatTableDataSource<ISubscription>();
   public dialogRef!: MatDialogRef<AcceptDialogComponent>
+  public dialogRefEditSubscription!: MatDialogRef<SubscriptionEditDialogComponent>;
   @ViewChild('f') form: any;
 
   public formGroup!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private userProfile: UserProfileComponent, private authService: AuthService, private dialog: MatDialog,
-    public expirations: ExpirationsService) { }
+    public expirations: ExpirationsService, private validations: ValidationFieldsService) { }
 
   ngOnInit(): void {
 
     this.refreshUsers();
     this.formGroup = this.formBuilder.group({
-      plateNumber: ['AG 22 YNM', [Validators.required, Validators.pattern('^[AB|AR|AG|BC|BH|BN|BT|BV|BR|BZ|CS|CJ|CL|CT|CV|DB|DJ|GL|GR|GJ|HR|HD|IS|IL|MM|MH|MS|NT|OT|PH|SM|SJ|SB|TR|TM|TL|VS|VN|B]{1,2}\\s[0-9]{2,3}\\s[A-Z]{3}$')]],
-      made: ['BMW', [Validators.required, Validators.minLength(2), Validators.maxLength(32), Validators.pattern('[a-zA-Z]+')]],
-      model: ['X1', [Validators.required, Validators.minLength(1), Validators.maxLength(32), Validators.pattern('[a-zA-Z0-9]+')]],
+      plateNumber: ['AG 22 YNM', [Validators.required, Validators.pattern(this.validations.patternForPlateNumber)]],
+      made: ['BMW', [Validators.required]],
+      model: ['X1', [Validators.required]],
       expireDate: [new Date(new Date().setDate(new Date().getDate() + Math.floor(Math.random() * 999))), [Validators.required, Validators.minLength(4), Validators.maxLength(32)]],      
     });
   }
 
-  
+  edit(id: number) {
+
+
+    this.authService.getSubscriptionBy(id).subscribe(data => {
+      console.log(id);
+      console.log(data);
+      this.dialogRefEditSubscription = this.dialog.open(SubscriptionEditDialogComponent, {
+        data: data
+      });
+
+      this.dialogRefEditSubscription.afterClosed().subscribe(result => {
+        if(result) {
+          this.ngOnInit();
+          console.log('yes');
+        }
+      });
+    });
+ 
+
+
+
+  }
 
   onSubmit() {
 
@@ -54,7 +78,7 @@ export class OptionRcaComponent implements OnInit {
     let myTempDate = this.expirations.getRightDate(expireDate);
     let myTempString = this.userProfile.dateNow.toLocaleDateString();
 
-    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString, firstName, lastName, myTempDate, plateNumber, made, model, this.userProfile.selected).subscribe( 
+    this.authService.saveSubscription(this.userProfile.userId, this.userProfile.email, myTempString, firstName, lastName, undefined, myTempDate, plateNumber, made, model, undefined, undefined, undefined, this.userProfile.selected).subscribe( 
       data => {
         this.userProfile.openSnackBar('Salvarea a avut loc cu succes!');
         this.ngOnInit();

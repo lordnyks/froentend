@@ -20,7 +20,7 @@ export class UsersStatisticsComponent implements OnInit {
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
-      position: 'right'
+      position: 'bottom'
     }
   };
 
@@ -29,7 +29,7 @@ export class UsersStatisticsComponent implements OnInit {
   // Labels(campuri)
 
   public pieChartLabelsGenders: Label[] = [['Masculin'], ['Feminin']];
-  public pieChartLabelsDocuments: Label[] = [['ITP'], ['RCA'], ['Carte de identitate'],['Rovinietă']];
+  public pieChartLabelsDocuments: Label[] = [['ITP'], ['RCA'], ['Carte de identitate'],['Rovinietă'], ['Rata la bancă'], ['Impozit']];
   public pieChartLabelsRoles: Label[] = [['Administrator'], ['Supervisor'], ['Moderator'],['Helper'], ['Membru']];
   public pieChartLabelsMades: Label[] = [];
   public tempLabelsMades: string[] = [];
@@ -83,7 +83,7 @@ export class UsersStatisticsComponent implements OnInit {
   public getCategories() {
     this.detailsService.getCategories().subscribe(data => this.categoriesCount$.next(data));    
     this.categoriesCount$.asObservable().subscribe(data => {
-      this.pieChartDataDocuments = [data[0], data[1], data[2], data[3]];        
+      this.pieChartDataDocuments = [data[0], data[1], data[2], data[3], data[4], data[5]];        
     });
   }
 
@@ -113,7 +113,6 @@ export class UsersStatisticsComponent implements OnInit {
     });
 
 
-    console.log(this.tempLabelsMades);
 
   }
 }
